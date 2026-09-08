@@ -1,0 +1,38 @@
+.brand-statement__words {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-statement__word {
+  line-height: 1.05;
+}
+
+.brand-statement__word:nth-child(2) {
+  padding-left: 8vw;
+}
+
+.brand-statement__word:nth-child(3) {
+  padding-left: 16vw;
+}
+
+.brand-statement__word:nth-child(4) {
+  padding-left: 24vw;
+}
+
+.brand-statement__lead {
+  margin-top: var(--space-8);
+  max-width: 40ch;
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .brand-statement__word:nth-child(2) {
+    padding-left: 4vw;
+  }
+  .brand-statement__word:nth-child(3) {
+    padding-left: 8vw;
+  }
+  .brand-statement__word:nth-child(4) {
+    padding-left: 12vw;
+  }
+}

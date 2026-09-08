@@ -1,0 +1,128 @@
+/* Shared layout for Login / Signup / ForgotPassword / ResetPassword.
+   Deliberately reuses the same field/error visual language as
+   Checkout.css (.checkout-field-style patterns) rather than inventing a
+   second one. */
+
+.auth-layout {
+  margin-top: var(--space-7);
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.auth-field label {
+  color: var(--color-graphite);
+}
+
+.auth-field input[aria-invalid='true'] {
+  border-color: var(--color-signal);
+}
+
+.auth-field__error {
+  color: var(--color-signal);
+  font-size: var(--size-small);
+}
+
+.auth-form-error {
+  color: var(--color-signal);
+  font-size: var(--size-small);
+}
+
+.auth-form-success {
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: var(--border-hairline-light);
+  padding: var(--space-4);
+  font-size: var(--size-small);
+}
+
+.auth-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--size-small);
+}
+
+.auth-footer-links a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-route-loading {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Account page ---- */
+
+.account-layout {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 40rem;
+}
+
+.account-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: var(--border-hairline-light);
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-2);
+  border-bottom: var(--border-hairline-light);
+}
+
+.account-row:last-child {
+  border-bottom: none;
+}
+
+.account-row dt {
+  color: var(--color-graphite);
+}
+
+.account-row dd {
+  margin: 0;
+  text-align: right;
+}
+
+.account-role-badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--size-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  border: var(--border-hairline-light);
+}
+
+.account-orders-empty {
+  color: var(--color-graphite);
+}

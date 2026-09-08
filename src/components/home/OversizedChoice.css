@@ -1,0 +1,31 @@
+.oversized {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.oversized__headline {
+  max-width: 10ch;
+}
+
+.oversized__lead {
+  margin-top: var(--space-5);
+  max-width: 38ch;
+}
+
+@media (min-width: 1024px) {
+  .oversized {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-9);
+  }
+
+  .oversized__image-wrap {
+    width: 50%;
+    flex-shrink: 0;
+  }
+
+  .oversized__text {
+    flex: 1;
+  }
+}

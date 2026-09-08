@@ -1,0 +1,122 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--color-white);
+  border-bottom: var(--border-hairline-light);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.navbar__wordmark {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: var(--weight-black);
+  letter-spacing: var(--tracking-tight);
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.navbar__links--desktop {
+  display: none;
+}
+
+.navbar__link {
+  font-size: var(--size-small);
+  font-weight: var(--weight-medium);
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.navbar__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.navbar__icon-btn:hover {
+  opacity: 0.6;
+}
+
+.navbar__icon-btn--desktop {
+  display: none;
+}
+
+.navbar__icon-btn--cart {
+  position: relative;
+}
+
+.navbar__cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  color: var(--color-white);
+  background-color: var(--color-ink);
+  border-radius: 999px;
+}
+
+.navbar__mobile-panel {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--border-hairline-light);
+  background-color: var(--color-white);
+}
+
+.navbar__mobile-link {
+  padding: var(--space-5) var(--container-padding);
+  font-size: var(--size-h3);
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  border-bottom: var(--border-hairline-light);
+}
+
+.navbar__mobile-link--button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .navbar__links--desktop {
+    display: flex;
+  }
+
+  .navbar__icon-btn--desktop {
+    display: inline-flex;
+  }
+
+  .navbar__icon-btn--mobile-only {
+    display: none;
+  }
+}

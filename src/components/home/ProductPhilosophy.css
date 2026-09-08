@@ -1,0 +1,70 @@
+.philosophy {
+  background-color: var(--color-paper);
+}
+
+.philosophy__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.philosophy__headline {
+  margin-top: var(--space-4);
+  max-width: 12ch;
+}
+
+.philosophy__lead {
+  margin-top: var(--space-5);
+  max-width: 42ch;
+}
+
+.philosophy__journey {
+  display: flex;
+  flex-direction: column;
+}
+
+.philosophy__step {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+  padding-block: var(--space-4);
+  border-top: var(--border-hairline-light);
+}
+
+.philosophy__step:last-child {
+  border-bottom: var(--border-hairline-light);
+}
+
+.philosophy__number {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-h3);
+  color: var(--color-silver);
+  flex-shrink: 0;
+  width: 3ch;
+}
+
+.philosophy__label {
+  font-family: var(--font-display);
+  font-size: var(--size-h3);
+  font-weight: var(--weight-medium);
+}
+
+@media (min-width: 1024px) {
+  .philosophy__grid {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-9);
+  }
+
+  .philosophy__intro {
+    position: sticky;
+    top: 100px;
+    width: 34%;
+    flex-shrink: 0;
+  }
+
+  .philosophy__journey {
+    flex: 1;
+  }
+}

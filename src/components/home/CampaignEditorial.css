@@ -1,0 +1,25 @@
+.campaign__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.campaign__image--secondary {
+  display: none;
+}
+
+.campaign__caption {
+  margin-top: var(--space-7);
+  max-width: 44ch;
+}
+
+@media (min-width: 768px) {
+  .campaign__grid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .campaign__image--secondary {
+    display: block;
+    margin-top: var(--space-9);
+  }
+}

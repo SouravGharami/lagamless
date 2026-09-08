@@ -1,0 +1,14 @@
+.shop-cta__inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-cta__headline {
+  max-width: 16ch;
+}
+
+.shop-cta__button {
+  margin-top: var(--space-7);
+}

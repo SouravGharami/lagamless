@@ -1,0 +1,22 @@
+.manifesto {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.manifesto__headline {
+  max-width: 14ch;
+}
+
+.manifesto__lines {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-8);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.manifesto__line {
+  padding-block: var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  font-weight: var(--weight-medium);
+  color: var(--color-silver);
+}

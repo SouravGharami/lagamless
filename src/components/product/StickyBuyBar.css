@@ -1,0 +1,79 @@
+.sticky-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-ink);
+  transform: translateY(100%);
+  transition: transform var(--duration-base) var(--ease-standard);
+  pointer-events: none;
+}
+
+.sticky-buy--visible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sticky-buy__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+}
+
+.sticky-buy__info {
+  display: none;
+  flex-direction: column;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.sticky-buy__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  font-size: var(--size-small);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky-buy__price {
+  font-size: var(--size-micro);
+  color: var(--color-graphite);
+}
+
+.sticky-buy__size {
+  flex-shrink: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-ink);
+  font-size: var(--size-small);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
+.sticky-buy__size--prompt {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+
+.sticky-buy__cta {
+  flex: 1;
+}
+
+.sticky-buy__cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .sticky-buy__info {
+    display: flex;
+  }
+
+  .sticky-buy__cta {
+    flex: none;
+    min-width: 12rem;
+  }
+}

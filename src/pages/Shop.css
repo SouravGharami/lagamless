@@ -1,0 +1,15 @@
+.shop-header {
+  margin-bottom: var(--space-8);
+  max-width: 62ch;
+}
+
+.shop-header__title {
+  margin-top: var(--space-3);
+}
+
+.shop-header__intro {
+  margin-top: var(--space-4);
+}
+
+/* .shop-grid layout rules live in styles/global.css so Shop and the
+   Product page's "You may also like" section share one definition. */
