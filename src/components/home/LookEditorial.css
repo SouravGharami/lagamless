@@ -1,0 +1,106 @@
+.look__header {
+  max-width: 56ch;
+  margin-bottom: var(--space-8);
+}
+
+.look__headline {
+  margin-top: var(--space-3);
+}
+
+.look__lede {
+  margin-top: var(--space-4);
+}
+
+.look__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+}
+
+.look__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.look__image-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-paper);
+}
+
+.look__number {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-small);
+  color: var(--color-white);
+  background-color: var(--color-ink);
+  padding: var(--space-1) var(--space-2);
+}
+
+.look__image {
+  transition: transform var(--duration-slow) var(--ease-standard), filter var(--duration-slow) var(--ease-standard);
+  filter: grayscale(0.15);
+}
+
+.look__card:hover .look__image {
+  transform: scale(1.05);
+  filter: grayscale(0);
+}
+
+.look__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.look__name {
+  color: var(--color-ink);
+}
+
+.look__mood {
+  color: var(--color-graphite);
+}
+
+.look__formula {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.look__piece {
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-graphite);
+  border: var(--border-hairline-light);
+  padding: var(--space-1) var(--space-3);
+}
+
+.look__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink);
+  transition: gap var(--duration-base) var(--ease-standard), color var(--duration-base) var(--ease-standard);
+}
+
+.look__card:hover .look__cta {
+  gap: var(--space-3);
+  color: var(--color-signal);
+}
+
+@media (min-width: 768px) {
+  .look__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}

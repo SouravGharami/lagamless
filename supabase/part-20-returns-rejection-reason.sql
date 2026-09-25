@@ -1,0 +1,46 @@
+-- ============================================================================
+-- LAGAMLESS — Part 20 migration: returns.rejection_reason column
+--
+-- Context: the admin Returns page (src/admin/pages/AdminReturns.jsx,
+-- wired up in Part 19 — see part-19-admin-returns.sql) currently only
+-- has Approve/Reject buttons that flip `returns.status`. This step makes
+-- Reject require a reason from the admin and persist it, so there is a
+-- record of *why* a return was rejected (shown back to the admin, and
+-- available later for a customer-facing message if that's ever added —
+-- not in scope here).
+--
+-- Scope of THIS migration: one nullable column, nothing else.
+--   - `rejection_reason text`, nullable, no default. Empty/absent for
+--     every existing row and for any return that ends up 'approved' —
+--     only ever set by the admin Reject action, alongside `status =
+--     'rejected'`, in the same UPDATE (see updateReturnStatus /
+--     rejectReturn in src/services/adminReturns.js).
+--   - No check constraint requiring it to be non-null when status =
+--     'rejected': the application layer (the new RejectReturnDialog)
+--     is what requires the admin to type something before the button
+--     is enabled, matching how `status` itself is still left
+--     unconstrained at the DB level (see part-17-returns-table.sql's
+--     header note) — this project's pattern so far is to enforce
+--     workflow-shape rules in the app, not with DB constraints, for
+--     this table specifically.
+--
+-- Explicitly NOT in scope: no RLS/grant changes (part-19 already covers
+-- admin read/write access to every column on this table, this one
+-- included, since its policies are column-agnostic `for all` policies),
+-- no pickup/inspection/refund columns, no customer-facing surfacing of
+-- this value.
+--
+-- Safe to re-run: `add column if not exists`. Does not touch any
+-- existing row's data (every existing row simply gets `null` here).
+-- ============================================================================
+
+alter table public.returns add column if not exists rejection_reason text;
+
+-- ============================================================================
+-- End of Part 20 migration.
+--
+-- After running this in the Supabase SQL Editor, rejecting a return from
+-- /admin/returns will prompt for a reason and save it to this column; the
+-- admin table shows it under the row's Reason cell for any 'rejected'
+-- return.
+-- ============================================================================

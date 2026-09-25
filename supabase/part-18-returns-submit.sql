@@ -1,0 +1,46 @@
+-- ============================================================================
+-- LAGAMLESS — Part 18 migration: return-request submission (data-layer note)
+--
+-- Context: Part 17 (part-17-returns-table.sql) created `public.returns`
+-- with RLS enabled and zero policies/grants — deliberately inert, matching
+-- how `orders`/`order_items`/`payments`/`shipping` were originally brought
+-- up in schema.sql before Part 10 added the checkout edge functions that
+-- write to them (see supabase/functions/README.md).
+--
+-- This step wires the customer-facing Return form
+-- (src/components/ReturnRequestDialog.jsx) up to actually submit, via a
+-- new `submit-return-request` edge function — following the exact same
+-- pattern as `create-razorpay-order` / `verify-razorpay-payment`: it runs
+-- with the service-role key, which bypasses RLS and table grants entirely
+-- (see part-13-orders-grants-fix.sql's header for why that's different
+-- from a table-level GRANT). Because of that, THIS MIGRATION DOES NOT ADD
+-- ANY RLS POLICY OR GRANT to `public.returns` — none is needed for the
+-- feature in scope (customer submit only, no admin Returns UI yet), and
+-- adding a permissive policy now would just be unused surface area ahead
+-- of Part 19's admin work actually needing it.
+--
+-- The one real schema gap this closes: `orders.delivered_at` is already
+-- read by src/pages/OrderLookup.jsx and src/services/adminOrders.js, and
+-- written by adminOrders.js' updateOrderStatus() when an order is marked
+-- "Delivered" — but no tracked migration in this repo ever added the
+-- column (part-16-order-tracking.sql added shipped_at and the tracking_*
+-- columns, not this one). The return form's eligibility check (7-day
+-- window from delivered_at) and the new edge function's server-side copy
+-- of that same check both depend on the column existing, so it's added
+-- here, defensively (`if not exists`, no default, nullable) — a no-op if
+-- it's already present in your database, exactly like part-16's columns.
+-- ============================================================================
+
+alter table public.orders add column if not exists delivered_at timestamptz;
+
+-- ============================================================================
+-- End of Part 18 migration.
+--
+-- After running this in the Supabase SQL Editor and deploying the new
+-- `submit-return-request` edge function (see
+-- supabase/functions/submit-return-request/index.ts and the updated
+-- supabase/functions/README.md), the "Return" button on a delivered
+-- order at /login (OrderLookup.jsx) actually saves a row to
+-- `public.returns` with status 'requested', instead of only validating
+-- locally.
+-- ============================================================================

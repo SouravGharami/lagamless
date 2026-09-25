@@ -1,0 +1,43 @@
+-- ============================================================================
+-- LAGAMLESS — Part 21 migration: returns.received_at column
+--
+-- Context: the admin Returns page (src/admin/pages/AdminReturns.jsx) can
+-- already move a return 'approved' → 'pickup' (Part 19's "Start Return
+-- Pickup" button, no schema change needed since `status` is plain
+-- unconstrained text — see part-17-returns-table.sql). This step adds the
+-- next stage, "Mark as Received", which moves 'pickup' → 'received'. That
+-- transition itself again needs no schema change, but the step also asks
+-- to record *when* the return was received — there's no existing column
+-- for that, so this migration adds exactly one.
+--
+-- Scope of THIS migration: one nullable column, nothing else.
+--   - `received_at timestamptz`, nullable, no default — same shape as
+--     `orders.delivered_at` (added in part-18-returns-submit.sql) and
+--     `orders.shipped_at` (part-16-order-tracking.sql): empty for every
+--     existing row and for any return that hasn't reached 'received' yet,
+--     stamped exactly once, in the same UPDATE that sets `status =
+--     'received'` (see markReturnReceived() in
+--     src/services/adminReturns.js), by the app layer (`new
+--     Date().toISOString()`), not a DB trigger/default — same pattern
+--     already used for `shipped_at`/`delivered_at` in
+--     src/services/adminOrders.js.
+--
+-- Explicitly NOT in scope: no RLS/grant changes (part-19's `for all`
+-- admin policy already covers every column on this table, this one
+-- included), no inspection/refund columns or logic, no courier/tracking
+-- fields, no check constraint on `status` (still intentionally left open
+-- per part-17's header note).
+--
+-- Safe to re-run: `add column if not exists`. Does not touch any
+-- existing row's data (every existing row simply gets `null` here).
+-- ============================================================================
+
+alter table public.returns add column if not exists received_at timestamptz;
+
+-- ============================================================================
+-- End of Part 21 migration.
+--
+-- After running this in the Supabase SQL Editor, a return in 'pickup'
+-- status will show a "Mark as Received" button on /admin/returns; clicking
+-- it sets status = 'received' and stamps this column in the same update.
+-- ============================================================================

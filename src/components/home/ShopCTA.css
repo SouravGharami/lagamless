@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Closing homepage banner — a single pre-composed campaign image (see
+   ShopCTA.jsx), so this file just needs to render it full-bleed at its
+   native ratio with no card, border, or overlaid copy.
+   ========================================================================== */
+
+.beyond {
+  background-color: var(--color-ink);
+  line-height: 0;
+}
+
+.beyond img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2172 / 724;
+  object-fit: cover;
+}

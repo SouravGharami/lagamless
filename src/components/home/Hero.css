@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Homepage hero
+
+   Desktop (>= 1000px): the photo is NOT cropped to fill the banner. It sits
+   bottom-right at its natural proportions and its left/top edges dissolve
+   into the black, so the copy on the left gets clean dark space, the faces
+   stay fully visible, and the right-hand "Different People" list has a
+   quiet corner to sit in. Per-slide size/crop/focal settings live in
+   Hero.jsx (SLIDES) and arrive here as custom properties:
+     --img-ratio  aspect ratio of the photo box
+     --img-w      photo width (in cqw = % of banner width)
+     --pos        object-position inside the box (desktop)
+     --fade-x/y   how far the left/top edge dissolves (% of the photo box)
+     --focal      object-position on tablet/mobile
+
+   Tablet / mobile (< 1000px): stacked. Photo on top (cropped to its faces
+   via --focal), fading into black, with the copy underneath on solid black.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  /* Lets children size themselves from the banner's width with cqw units. */
+  container-type: inline-size;
+  /* Explicit width: without it, max-height + aspect-ratio shrinks the
+     banner's WIDTH on big screens and leaves a white strip on the right. */
+  width: 100%;
+  aspect-ratio: 2.4 / 1;
+  min-height: 500px;
+  max-height: 720px;
+  overflow: hidden;
+  background-color: var(--color-ink);
+  display: flex;
+  align-items: flex-end;
+  /* Pull the hero up underneath the transparent navbar (see
+     .navbar--overlay) so the photo starts directly beneath the black
+     announcement bar with no white nav strip in between. Reads off the
+     same --navbar-h custom property the navbar sizes itself with (see
+     global.css), so the two can never drift out of sync by a pixel. */
+  margin-top: calc(-1 * var(--navbar-h));
+}
+
+@media (min-width: 768px) {
+  .hero {
+    margin-top: calc(-1 * var(--navbar-h-desktop));
+  }
+}
+
+/* ---- Photo layer ------------------------------------------------------- */
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* The slides size themselves against the banner (cqw / cqh). */
+  container-type: size;
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-standard);
+}
+
+.hero__slide--active {
+  opacity: 1;
+}
+
+.hero__slide .hero__image {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  /* Never wider than the banner allows, never taller than the banner. */
+  width: min(var(--img-w, 70cqw), calc(100cqh * var(--img-ratio, 1.777)));
+  height: auto;
+  aspect-ratio: var(--img-ratio, 1.777);
+  background: transparent;
+  /* Dissolve the left edge (behind the copy) and the top edge (behind the
+     navbar) into the banner's black. The stops follow a smoothstep curve
+     so the fade reads as mist rather than a visible gradient band. */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.03) calc(var(--fade-x, 22%) * 0.1), rgba(0, 0, 0, 0.1) calc(var(--fade-x, 22%) * 0.2), rgba(0, 0, 0, 0.42) calc(var(--fade-x, 22%) * 0.45), rgba(0, 0, 0, 0.81) calc(var(--fade-x, 22%) * 0.72), #000 var(--fade-x, 22%)),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.03) calc(var(--fade-y, 16%) * 0.1), rgba(0, 0, 0, 0.1) calc(var(--fade-y, 16%) * 0.2), rgba(0, 0, 0, 0.42) calc(var(--fade-y, 16%) * 0.45), rgba(0, 0, 0, 0.81) calc(var(--fade-y, 16%) * 0.72), #000 var(--fade-y, 16%));
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.03) calc(var(--fade-x, 22%) * 0.1), rgba(0, 0, 0, 0.1) calc(var(--fade-x, 22%) * 0.2), rgba(0, 0, 0, 0.42) calc(var(--fade-x, 22%) * 0.45), rgba(0, 0, 0, 0.81) calc(var(--fade-x, 22%) * 0.72), #000 var(--fade-x, 22%)),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.03) calc(var(--fade-y, 16%) * 0.1), rgba(0, 0, 0, 0.1) calc(var(--fade-y, 16%) * 0.2), rgba(0, 0, 0, 0.42) calc(var(--fade-y, 16%) * 0.45), rgba(0, 0, 0, 0.81) calc(var(--fade-y, 16%) * 0.72), #000 var(--fade-y, 16%));
+  mask-composite: intersect;
+}
+
+.hero__slide .editorial-image img {
+  object-fit: cover;
+  object-position: var(--pos, 50% 50%);
+  filter: contrast(1.04);
+}
+
+/* Legibility helpers only — the heavy lifting is the photo's own fade. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(12, 12, 11, 0.9) 0%, rgba(12, 12, 11, 0.55) 20cqw, rgba(12, 12, 11, 0) 37cqw),
+    linear-gradient(0deg, rgba(12, 12, 11, 0.75) 0%, rgba(12, 12, 11, 0) 22%);
+}
+
+/* ---- Left copy ---------------------------------------------------------- */
+
+.hero__content {
+  --hero-title: clamp(2.4rem, 4.8cqw, 4.8rem);
+  position: relative;
+  z-index: 1;
+  display: grid; /* every slide's copy shares one cell -> constant height */
+  width: min(37cqw, 44rem);
+  color: var(--color-white);
+  padding-left: max(var(--container-padding), calc((100cqw - 1680px) / 2));
+  padding-right: 0;
+  padding-bottom: clamp(3.5rem, 6cqw, 5.5rem);
+}
+
+.hero__copy-block {
+  grid-area: 1 / 1;
+  align-self: end;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition:
+    opacity 600ms var(--ease-standard),
+    transform 600ms var(--ease-standard),
+    visibility 0s linear 600ms;
+}
+
+.hero__copy-block--active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 150ms, 150ms, 0s;
+}
+
+.hero__kicker {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-size: var(--hero-title);
+  line-height: 0.9;
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  white-space: nowrap;
+  -webkit-text-stroke: 1.5px var(--color-white);
+  color: transparent;
+}
+
+/* Long kickers (e.g. "CREATE / EXPLORE / BELONG") would wrap into a tall
+   outlined block, so they switch to a small spaced-out eyebrow instead. */
+.hero__kicker--eyebrow {
+  font-size: clamp(0.8rem, 1.05cqw, 0.95rem);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.22em;
+  line-height: 1.4;
+  white-space: normal;
+  -webkit-text-stroke: 0;
+  color: var(--color-silver);
+  margin-bottom: var(--space-3);
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-size: var(--hero-title);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  margin-top: 0.1em;
+}
+
+.hero__headline-sub {
+  display: block;
+  font-size: clamp(1rem, 1.9cqw, 1.65rem);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-normal);
+  margin-top: var(--space-3);
+}
+
+.hero__copy {
+  margin-top: var(--space-4);
+  max-width: 38ch;
+  color: var(--color-silver);
+  font-size: clamp(0.875rem, 1.1cqw, 1.02rem);
+  line-height: var(--leading-relaxed);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95em 2em;
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  border: 1px solid var(--color-white);
+  transition: background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.hero__btn--solid {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.hero__btn--solid:hover {
+  background-color: transparent;
+  color: var(--color-white);
+}
+
+.hero__btn--outline {
+  background-color: transparent;
+  color: var(--color-white);
+}
+
+.hero__btn--outline:hover {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+/* ---- Right story list --------------------------------------------------- */
+
+.hero__story {
+  position: absolute;
+  z-index: 1;
+  /* Sits just under the navbar, in the quiet corner above the last model. */
+  top: 108px;
+  right: max(var(--container-padding), calc((100cqw - 1680px) / 2));
+  color: var(--color-white);
+  text-align: right;
+  display: none;
+  /* Keeps the list readable even over a bright sky. */
+  text-shadow: 0 1px 14px rgba(12, 12, 11, 0.7), 0 0 3px rgba(12, 12, 11, 0.4);
+  transition: opacity 600ms var(--ease-standard), visibility 0s linear 0s;
+}
+
+/* Soft local shadow so the list stays readable on any photo. */
+.hero__story::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -3rem -3rem -2rem -5rem;
+  background: radial-gradient(ellipse at 70% 45%, rgba(12, 12, 11, 0.6) 0%, rgba(12, 12, 11, 0) 70%);
+  pointer-events: none;
+}
+
+.hero__story--hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms var(--ease-standard), visibility 0s linear 400ms;
+}
+
+.hero__story-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-medium);
+  font-size: clamp(1rem, 1.55cqw, 1.4rem);
+  line-height: 1.25;
+}
+
+.hero__story-line--accent {
+  color: var(--color-white);
+  font-weight: var(--weight-bold);
+}
+
+.hero__story-tags {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@media (min-width: 1000px) {
+  .hero__story {
+    display: block;
+  }
+}
+
+/* ---- Dots ---------------------------------------------------------------- */
+
+.hero__dots {
+  position: absolute;
+  z-index: 2;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.hero__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-white);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.hero__dot--active {
+  background-color: var(--color-white);
+}
+
+/* ==========================================================================
+   Tablet + mobile: stacked. Photo on top, copy below on black.
+   ========================================================================== */
+
+@media (max-width: 999px) {
+  .hero {
+    display: block;
+    aspect-ratio: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .hero__media {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Photo fills the frame here (cropped around the faces via --focal) and
+     fades out at the bottom into the copy; a light top shade keeps the
+     navbar legible. */
+  .hero__slide .hero__image {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    -webkit-mask-composite: source-over;
+    mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    mask-composite: add;
+  }
+
+  .hero__slide .editorial-image img {
+    object-position: var(--focal, 50% 40%);
+  }
+
+  .hero__scrim {
+    background: linear-gradient(180deg, rgba(12, 12, 11, 0.7) 0%, rgba(12, 12, 11, 0) 28%);
+  }
+
+  .hero__content {
+    --hero-title: clamp(2.3rem, 11vw, 4.4rem);
+    width: auto;
+    /* Tuck the copy up into the photo's fade-out. */
+    margin-top: calc(-1 * clamp(2.5rem, 10vw, 5rem));
+    padding: 0 var(--container-padding) clamp(4rem, 12vw, 5rem);
+  }
+
+  .hero__headline-sub {
+    font-size: clamp(1.05rem, 4vw, 1.5rem);
+  }
+
+  .hero__copy {
+    font-size: var(--size-body);
+    max-width: 46ch;
+  }
+
+  .hero__kicker--eyebrow {
+    font-size: 0.8rem;
+  }
+
+  .hero__dots {
+    bottom: var(--space-5);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__media {
+    aspect-ratio: 1 / 1;
+  }
+
+  .hero__btn {
+    padding: 0.95em 1.6em;
+  }
+}

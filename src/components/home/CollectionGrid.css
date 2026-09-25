@@ -1,0 +1,351 @@
+/* ==========================================================================
+   "For everyone" mood strip
+
+   Desktop (>= 1100px): accordion. One tile is always open — full colour,
+   blurb + Explore visible — and the other six are narrower and monochrome.
+   The monochrome grade is what stops seven unrelated stock/campaign photos
+   (blue sky, pink wall, teal studio…) from reading as a patchwork; colour
+   is reserved for the tile you're looking at.
+
+   Tablet / mobile: swipeable carousel, every caption visible.
+   ========================================================================== */
+
+.collection-grid {
+  --open-grow: 2.7;
+  /* Lets the photos size themselves from the strip's width (cqw). */
+  container-type: inline-size;
+  position: relative;
+  background-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.collection-grid__grid {
+  display: flex;
+  gap: 3px;
+  height: clamp(500px, 44cqw, 680px);
+  list-style: none;
+}
+
+.collection-grid__cell {
+  flex: 1 1 0;
+  min-width: 0;
+  transition: flex-grow 750ms cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+.collection-grid__cell.is-active {
+  flex-grow: var(--open-grow);
+}
+
+/* ---- Card ---------------------------------------------------------------- */
+
+.collection-grid__card {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--color-charcoal);
+  color: var(--color-white);
+}
+
+.collection-grid__card:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: -5px;
+}
+
+/* Thin oxide-red rule that draws across the top of the open tile. */
+.collection-grid__card::before {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 750ms cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+.collection-grid__cell.is-active .collection-grid__card::before {
+  transform: scaleX(1);
+}
+
+/* ---- Photo ---------------------------------------------------------------- */
+
+/* The photo is sized to the OPEN tile's width and centred, so as tiles
+   grow/shrink it is simply revealed or masked — never re-scaled or
+   squashed mid-animation. */
+.collection-grid__cell .collection-grid__image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: calc(100cqw * var(--open-grow) / (6 + var(--open-grow)));
+  height: auto;
+  aspect-ratio: auto;
+  background: transparent;
+  transform: translateX(-50%);
+}
+
+.collection-grid__cell .collection-grid__image img {
+  object-fit: cover;
+  object-position: var(--focal, 50% 30%);
+  filter: grayscale(1) contrast(1.1) brightness(0.82);
+  transform: scale(1.02);
+  transition:
+    filter 750ms var(--ease-standard),
+    transform 1400ms cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+.collection-grid__cell.is-active .collection-grid__image img {
+  filter: grayscale(0) contrast(1.05) brightness(0.95);
+  transform: scale(1.06);
+}
+
+.collection-grid__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(12, 12, 11, 0.5) 0%, rgba(12, 12, 11, 0) 22%),
+    linear-gradient(0deg, rgba(12, 12, 11, 0.92) 0%, rgba(12, 12, 11, 0.55) 30%, rgba(12, 12, 11, 0) 62%);
+}
+
+/* ---- Index + arrow -------------------------------------------------------- */
+
+.collection-grid__index {
+  position: absolute;
+  z-index: 2;
+  top: var(--space-4);
+  left: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  font-size: var(--size-micro);
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.collection-grid__arrow {
+  position: absolute;
+  z-index: 2;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translate(-6px, 6px) rotate(-45deg);
+  transition:
+    opacity 500ms var(--ease-standard),
+    transform 500ms var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.collection-grid__cell.is-active .collection-grid__arrow {
+  opacity: 1;
+  transform: none;
+  transition-delay: 250ms;
+}
+
+.collection-grid__card:hover .collection-grid__arrow {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border-color: var(--color-white);
+}
+
+/* ---- Caption --------------------------------------------------------------- */
+
+/* Anchored to the bottom so every tile's text lines up on one baseline,
+   whether or not it has an eyebrow — and never sits on a face. */
+.collection-grid__caption {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-5) var(--space-4) var(--space-5);
+}
+
+.collection-grid__eyebrow {
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size: var(--size-micro);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.collection-grid__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-size: clamp(0.95rem, 1.25cqw, 1.5rem);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+/* Blurb + button collapse away on the closed tiles and unfold on the open
+   one (grid-template-rows 0fr -> 1fr animates height without JS). */
+.collection-grid__reveal-group {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  opacity: 0;
+  transition:
+    grid-template-rows 750ms cubic-bezier(0.22, 0.8, 0.24, 1),
+    opacity 400ms var(--ease-standard);
+}
+
+.collection-grid__cell.is-active .collection-grid__reveal-group {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition-delay: 0ms, 200ms;
+}
+
+.collection-grid__reveal-group > * {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.collection-grid__blurb {
+  display: block;
+  margin-top: var(--space-3);
+  font-size: var(--size-small);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 30ch;
+}
+
+.collection-grid__explore {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  gap: 8px;
+  width: fit-content;
+  margin-top: var(--space-4);
+  padding: 0.7em 1.2em;
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.collection-grid__card:hover .collection-grid__explore {
+  background-color: var(--color-signal);
+  color: var(--color-white);
+}
+
+/* Stagger the strip in as it scrolls into view. */
+.collection-grid__card {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 700ms var(--ease-standard) calc(var(--i, 0) * 70ms),
+    transform 700ms var(--ease-standard) calc(var(--i, 0) * 70ms);
+}
+
+.reveal--visible .collection-grid__card {
+  opacity: 1;
+  transform: none;
+}
+
+/* The section-level reveal is handled per card above, so the wrapper
+   itself shouldn't also slide. */
+.collection-grid__reveal.reveal {
+  transform: none;
+}
+
+/* ==========================================================================
+   Tablet + mobile: swipeable carousel
+   ========================================================================== */
+
+@media (max-width: 1099px) {
+  .collection-grid {
+    padding-block: var(--space-6);
+  }
+
+  .collection-grid__grid {
+    height: auto;
+    gap: var(--space-3);
+    padding-inline: var(--container-padding);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--container-padding);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .collection-grid__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-grid__cell,
+  .collection-grid__cell.is-active {
+    flex: 0 0 min(72vw, 340px);
+    scroll-snap-align: start;
+  }
+
+  .collection-grid__card {
+    aspect-ratio: 3 / 4.3;
+  }
+
+  /* Photo fills its (fixed-width) card here. */
+  .collection-grid__cell .collection-grid__image {
+    inset: 0;
+    width: 100%;
+    transform: none;
+  }
+
+  /* No hover on touch, so keep a touch of colour on every card. */
+  .collection-grid__cell .collection-grid__image img,
+  .collection-grid__cell.is-active .collection-grid__image img {
+    filter: grayscale(0.25) contrast(1.06) brightness(0.9);
+    transform: none;
+  }
+
+  .collection-grid__title {
+    font-size: clamp(1.15rem, 5vw, 1.5rem);
+  }
+
+  .collection-grid__reveal-group,
+  .collection-grid__cell.is-active .collection-grid__reveal-group {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .collection-grid__arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  .collection-grid__card::before {
+    display: none;
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1279px) {
+  .collection-grid__blurb {
+    font-size: var(--size-micro);
+  }
+}

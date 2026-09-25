@@ -1,0 +1,81 @@
+<svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g61bg" cx="50%" cy="30%" r="85%">
+      <stop offset="0%" stop-color="#f5f4f0"/>
+      <stop offset="100%" stop-color="#e4e3dd"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g61bg)"/>
+  <line x1="506" y1="186" x2="688" y2="186" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="221" y1="829" x2="343" y2="829" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="300" y1="328" x2="517" y2="328" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="28" y1="497" x2="159" y2="497" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="367" y1="66" x2="510" y2="66" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="472" y1="337" x2="554" y2="337" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="342" y1="646" x2="383" y2="646" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="514" y1="705" x2="577" y2="705" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="650" y1="178" x2="776" y2="178" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="27" y1="443" x2="103" y2="443" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="130" y1="746" x2="273" y2="746" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="303" y1="927" x2="417" y2="927" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="755" y1="864" x2="882" y2="864" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="451" y1="326" x2="649" y2="326" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="381" y1="779" x2="581" y2="779" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="640" y1="182" x2="837" y2="182" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="264" y1="429" x2="408" y2="429" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="239" y1="133" x2="325" y2="133" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="59" y1="554" x2="193" y2="554" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="495" y1="14" x2="673" y2="14" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+  <ellipse cx="400" cy="834" rx="270" ry="20" fill="#0c0c0b" opacity="0.10"/>
+  
+        <g>
+          <rect x="150" y="266" width="500" height="96" rx="8" fill="#0c0c0b" opacity="0.08"/>
+          <rect x="150" y="260" width="500" height="96" rx="8" fill="#0c0c0b"/>
+          <rect x="150" y="260" width="500" height="48" rx="8" fill="#30302f" opacity="0.25"/>
+          <path d="M 150 308 C 250 302 550 302 650 308" stroke="#090908" stroke-width="1.5" opacity="0.35" fill="none"/>
+          <rect x="150" y="260" width="500" height="96" rx="8" fill="none" stroke="#0c0c0b" stroke-width="1" opacity="0.10"/>
+          <!-- folded sleeve tuck marks -->
+          <line x1="196" y1="260" x2="196" y2="356" stroke="#090908" stroke-width="1" opacity="0.3"/>
+          <line x1="604" y1="260" x2="604" y2="356" stroke="#090908" stroke-width="1" opacity="0.3"/>
+        </g>
+        <g>
+          <rect x="150" y="378" width="500" height="96" rx="8" fill="#0c0c0b" opacity="0.08"/>
+          <rect x="150" y="372" width="500" height="96" rx="8" fill="#201f1d"/>
+          <rect x="150" y="372" width="500" height="48" rx="8" fill="#41403e" opacity="0.25"/>
+          <path d="M 150 420 C 250 414 550 414 650 420" stroke="#181715" stroke-width="1.5" opacity="0.35" fill="none"/>
+          <rect x="150" y="372" width="500" height="96" rx="8" fill="none" stroke="#0c0c0b" stroke-width="1" opacity="0.10"/>
+          <!-- folded sleeve tuck marks -->
+          <line x1="196" y1="372" x2="196" y2="468" stroke="#181715" stroke-width="1" opacity="0.3"/>
+          <line x1="604" y1="372" x2="604" y2="468" stroke="#181715" stroke-width="1" opacity="0.3"/>
+        </g>
+        <g>
+          <rect x="150" y="490" width="500" height="96" rx="8" fill="#0c0c0b" opacity="0.08"/>
+          <rect x="150" y="484" width="500" height="96" rx="8" fill="#55534c"/>
+          <rect x="150" y="484" width="500" height="48" rx="8" fill="#6e6c66" opacity="0.25"/>
+          <path d="M 150 532 C 250 526 550 526 650 532" stroke="#3f3e39" stroke-width="1.5" opacity="0.35" fill="none"/>
+          <rect x="150" y="484" width="500" height="96" rx="8" fill="none" stroke="#0c0c0b" stroke-width="1" opacity="0.10"/>
+          <!-- folded sleeve tuck marks -->
+          <line x1="196" y1="484" x2="196" y2="580" stroke="#3f3e39" stroke-width="1" opacity="0.3"/>
+          <line x1="604" y1="484" x2="604" y2="580" stroke="#3f3e39" stroke-width="1" opacity="0.3"/>
+        </g>
+        <g>
+          <rect x="150" y="602" width="500" height="96" rx="8" fill="#0c0c0b" opacity="0.08"/>
+          <rect x="150" y="596" width="500" height="96" rx="8" fill="#908f8a"/>
+          <rect x="150" y="596" width="500" height="48" rx="8" fill="#a09f9b" opacity="0.25"/>
+          <path d="M 150 644 C 250 638 550 638 650 644" stroke="#6c6b67" stroke-width="1.5" opacity="0.35" fill="none"/>
+          <rect x="150" y="596" width="500" height="96" rx="8" fill="none" stroke="#0c0c0b" stroke-width="1" opacity="0.10"/>
+          <!-- folded sleeve tuck marks -->
+          <line x1="196" y1="596" x2="196" y2="692" stroke="#6c6b67" stroke-width="1" opacity="0.3"/>
+          <line x1="604" y1="596" x2="604" y2="692" stroke="#6c6b67" stroke-width="1" opacity="0.3"/>
+        </g>
+        <g>
+          <rect x="150" y="714" width="500" height="96" rx="8" fill="#0c0c0b" opacity="0.08"/>
+          <rect x="150" y="708" width="500" height="96" rx="8" fill="#f1efe9"/>
+          <rect x="150" y="708" width="500" height="48" rx="8" fill="#ffffff" opacity="0.25"/>
+          <path d="M 150 756 C 250 750 550 750 650 756" stroke="#e2ded2" stroke-width="1.5" opacity="0.35" fill="none"/>
+          <rect x="150" y="708" width="500" height="96" rx="8" fill="none" stroke="#0c0c0b" stroke-width="1" opacity="0.10"/>
+          <!-- folded sleeve tuck marks -->
+          <line x1="196" y1="708" x2="196" y2="804" stroke="#e2ded2" stroke-width="1" opacity="0.3"/>
+          <line x1="604" y1="708" x2="604" y2="804" stroke="#e2ded2" stroke-width="1" opacity="0.3"/>
+        </g>
+</svg>

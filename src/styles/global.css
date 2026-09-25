@@ -1,0 +1,467 @@
+/* ==========================================================================
+   LAGAMLESS — Global Design System
+   Premium Indian streetwear. Oversized as freedom, not fit.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&display=swap');
+
+:root {
+  /* ---- Color ---- */
+  --color-ink: #0c0c0b;          /* near-black, warm undertone, not #000 */
+  --color-charcoal: #201f1d;     /* secondary dark surface */
+  --color-graphite: #55534c;     /* muted body text on light */
+  --color-silver: #b7b3a9;       /* borders, dividers, disabled */
+  --color-paper: #f1efe9;        /* warm off-white surface */
+  --color-white: #ffffff;
+  --color-signal: #6e2320;       /* deep oxide red — used sparingly: tags, alerts */
+  --color-signal-bright: #c85c50; /* signal red lifted for legibility on dark surfaces */
+
+  /* ---- Typography ---- */
+  --font-display: 'Bricolage Grotesque', 'Arial Black', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-script: 'Caveat', cursive;
+
+  --size-hero: clamp(3rem, 8vw, 7.5rem);
+  --size-h1: clamp(2.25rem, 5vw, 4rem);
+  --size-h2: clamp(1.75rem, 3.4vw, 2.75rem);
+  --size-h3: clamp(1.25rem, 2vw, 1.75rem);
+  --size-lead: clamp(1.05rem, 1.4vw, 1.25rem);
+  --size-body: 1rem;
+  --size-small: 0.875rem;
+  --size-micro: 0.75rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 800;
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* ---- Layout ---- */
+  --container-max: 1440px;
+  --container-padding: clamp(1.25rem, 4vw, 3rem);
+  --section-spacing: clamp(4rem, 9vw, 8rem);
+
+  /* Navbar's own flow height at each breakpoint (must match
+     Navbar.css's .navbar__inner height exactly). Every full-bleed hero
+     that sits under the transparent overlay navbar (Hero.css,
+     ShopHero.css, Checkout.css) pulls itself up by this same amount via
+     margin-top: calc(var(--navbar-h) * -1), so there is a single source
+     of truth instead of the 68px/84px magic number copy-pasted in four
+     places — that duplication is what let the navbar and hero drift out
+     of sync by a pixel and show a hairline of the page's white
+     background through the seam while scrolling. */
+  --navbar-h: 68px;
+  --navbar-h-desktop: 84px;
+
+  /* ---- Borders ---- */
+  --border-hairline: 1px solid var(--color-ink);
+  --border-hairline-light: 1px solid var(--color-silver);
+  --radius: 0; /* fashion-editorial: sharp corners throughout */
+
+  /* ---- Transitions ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
+
+  /* ---- Breakpoints (reference only, used in media queries directly) ---- */
+  /* mobile: <640px, tablet: 640-1024px, laptop: 1024-1440px, desktop: >1440px */
+}
+
+/* ---------------------------------------------------------------------- */
+/* Reset                                                                    */
+/* ---------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* IMPORTANT: no `overflow-x: hidden` here. `html` above already clips
+     horizontal overflow for the whole document, which is all that's
+     needed. Setting overflow-x on the BODY as well was the actual cause
+     of the navbar not sticking: any overflow value other than `visible`
+     — even just on one axis — turns that element into its own
+     scroll container. With one on body too, the navbar's
+     `position: sticky` (in Navbar.css) started resolving itself against
+     body as the "nearest scrolling ancestor" instead of the real
+     viewport. Body itself never actually scrolls (the page's vertical
+     scroll happens on the document/viewport, not inside body), so the
+     sticky math never lined up: the bar just scrolled away with the
+     rest of the page instead of locking to the top, which is exactly
+     the "navbar disappears and leaves white space" behaviour — it
+     wasn't a background/border issue at all, the bar simply wasn't
+     sticking. */
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Accessibility                                                           */
+/* ---------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Typography                                                              */
+/* ---------------------------------------------------------------------- */
+
+.text-hero {
+  font-family: var(--font-display);
+  font-size: var(--size-hero);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--size-h1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--size-h2);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--size-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.text-lead {
+  font-size: var(--size-lead);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--color-graphite);
+}
+
+.text-label {
+  font-family: var(--font-body);
+  font-size: var(--size-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-graphite);
+}
+
+.text-small {
+  font-size: var(--size-small);
+  color: var(--color-graphite);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Layout primitives                                                       */
+/* ---------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.section {
+  padding-block: var(--section-spacing);
+}
+
+.section--tight {
+  padding-block: calc(var(--section-spacing) * 0.5);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Buttons                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+  border: 1px solid var(--color-ink);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-charcoal);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-ink);
+  border: 1px solid transparent;
+  padding-inline: var(--space-2);
+}
+
+.btn-ghost:hover {
+  color: var(--color-graphite);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Inputs                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.input {
+  display: block;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--size-body);
+  color: var(--color-ink);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-silver);
+  border-radius: var(--radius);
+  transition: border-color var(--duration-base) var(--ease-standard);
+}
+
+.input:focus {
+  border-color: var(--color-ink);
+}
+
+.input::placeholder {
+  color: var(--color-silver);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Cards                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.card {
+  background-color: var(--color-white);
+  border: var(--border-hairline-light);
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Links                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Utility                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.divider {
+  border: none;
+  border-top: var(--border-hairline-light);
+}
+
+.tag {
+  display: inline-block;
+  font-size: var(--size-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-signal);
+  border: 1px solid var(--color-signal);
+  padding: var(--space-1) var(--space-2);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Product grid — shared between Shop, Product (related), and homepage     */
+/* ---------------------------------------------------------------------- */
+
+.shop-grid,
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6) var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .shop-grid,
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .shop-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scroll reveal — the single motion pattern reused across the site        */
+/* ---------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--duration-slow) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-standard);
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Visually-hidden — keeps text available to screen readers/SEO without   */
+/* showing it, for banners whose copy is baked into a campaign image.     */
+/* ---------------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

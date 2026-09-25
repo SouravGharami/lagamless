@@ -1,0 +1,290 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  /* Solid brand-dark bar everywhere by default — matches the site's own
+     ink/white palette instead of sitting as a separate white strip on
+     top of it. The one exception is `.navbar--overlay` below, which is
+     layered on for the handful of pages that open on a full-bleed hero
+     photo. */
+  background-color: var(--color-ink);
+  /* A hairline UNDER the bar, drawn as a box-shadow rather than a real
+     border. A border-bottom adds its own width to the element's box, so
+     the bar was 1px taller than the `--navbar-h` value every hero pulls
+     itself up by (see global.css) — a permanent 1px seam that could show
+     through mid-scroll as the browser's sub-pixel rounding on the sticky
+     transform shifted it around. A box-shadow paints inside that same
+     footprint instead of adding to it, so the bar's real height always
+     matches `--navbar-h` exactly. */
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  /* Keeps the bar on its own compositor layer so Safari repaints it in
+     lock-step with scroll instead of a frame behind, which is what
+     otherwise reads as a flash while scrolling. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: background-color var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    backdrop-filter var(--duration-base) var(--ease-standard);
+}
+
+/* Once scrolled, a soft frosted-glass read instead of flat ink — a
+   little depth and polish, and it keeps whatever's scrolling underneath
+   from ever looking like it's butting straight up against a hard block
+   of colour. */
+.navbar--scrolled {
+  background-color: rgba(12, 12, 11, 0.88);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
+}
+
+/* ---- Full-bleed hero pages: transparent overlay on load ----
+   Fully transparent, floating directly on top of the hero photo — the
+   wordmark and nav links sit right on the campaign image with nothing
+   beneath the announcement bar. Crossfades to the same solid dark bar
+   every other page uses the instant the page scrolls (JS guarantees
+   `.navbar--overlay` and `.navbar--scrolled` are never applied at the
+   same time, so there's no cascade fight between the two).
+
+   background-color is written as rgba(255,255,255,0) rather than the
+   `transparent` keyword: browsers interpolate `transparent` as
+   transparent BLACK for the purpose of a transition, which would fade
+   in through a dark haze rather than a clean, colour-only crossfade
+   into the ink bar. */
+.navbar--overlay {
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ---- Main row ---- */
+
+.navbar__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--navbar-h);
+  transition: height var(--duration-base) var(--ease-standard);
+}
+
+/* ---- Compact / "branding" state ----
+   Once the page has scrolled, the bar settles into a slimmer strip
+   that reads as pure brand mark — smaller wordmark, no tagline, tighter
+   row — so the full lockup with its tagline is reserved for the top of
+   the page. Scrolling back up restores the original height and type
+   size exactly, so returning to the top looks identical to first
+   load. */
+.navbar--scrolled .navbar__inner {
+  height: 56px;
+}
+
+.navbar__wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  text-align: center;
+}
+
+.navbar__wordmark-text {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: var(--weight-black);
+  letter-spacing: 0.04em;
+  color: var(--color-white);
+  white-space: nowrap;
+  transition: color var(--duration-base) var(--ease-standard),
+    font-size var(--duration-base) var(--ease-standard);
+}
+
+.navbar--scrolled .navbar__wordmark-text {
+  font-size: 1.2rem;
+}
+
+.navbar__wordmark-tagline {
+  display: none;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  opacity: 1;
+  max-height: 14px;
+  transition: color var(--duration-base) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard),
+    max-height var(--duration-base) var(--ease-standard),
+    margin-top var(--duration-base) var(--ease-standard);
+}
+
+/* Collapses to nothing rather than just hiding, so the wordmark
+   re-centers into the shorter compact row instead of leaving a gap
+   where the tagline used to be. */
+.navbar--scrolled .navbar__wordmark-tagline {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+}
+
+.navbar__links {
+  display: none;
+}
+
+.navbar__links--desktop {
+  align-items: center;
+  gap: var(--space-6);
+  position: absolute;
+  left: var(--container-padding);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.navbar__link {
+  position: relative;
+  padding-bottom: 3px;
+  font-size: 12px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  transition: opacity var(--duration-fast) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.navbar__link:hover {
+  opacity: 0.7;
+}
+
+.navbar__link--active {
+  color: var(--color-white);
+}
+
+/* A small warm-red flick under the active link instead of a plain
+   white underline — a quiet nod to the brand's --color-signal accent
+   so the dark bar doesn't read as flat monochrome. */
+.navbar__link--active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-signal);
+}
+
+.navbar__spacer-right {
+  position: absolute;
+  right: var(--container-padding);
+  width: 20px;
+}
+
+.navbar__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--color-white);
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.navbar__icon-btn--desktop {
+  display: none;
+}
+
+.navbar__icon-btn--mobile-only {
+  position: absolute;
+  left: var(--container-padding);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ---- Mobile panel ---- */
+
+.navbar__mobile-panel {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: var(--color-ink);
+  animation: navbar-panel-in var(--duration-base) var(--ease-standard);
+}
+
+@keyframes navbar-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar__mobile-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--container-padding);
+  font-size: var(--size-h3);
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--color-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  transition: padding-left var(--duration-base) var(--ease-standard);
+}
+
+.navbar__mobile-link:hover,
+.navbar__mobile-link.active {
+  padding-left: calc(var(--container-padding) + 4px);
+}
+
+.navbar__mobile-index {
+  font-size: var(--size-small);
+  font-weight: var(--weight-bold);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.navbar__mobile-arrow {
+  margin-left: auto;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.navbar__mobile-link:hover .navbar__mobile-arrow {
+  transform: translateX(4px);
+}
+
+@media (min-width: 768px) {
+  .navbar__inner {
+    height: var(--navbar-h-desktop);
+  }
+
+  .navbar--scrolled .navbar__inner {
+    height: 64px;
+  }
+
+  .navbar__wordmark-text {
+    font-size: 1.9rem;
+  }
+
+  .navbar--scrolled .navbar__wordmark-text {
+    font-size: 1.4rem;
+  }
+
+  .navbar__wordmark-tagline {
+    display: block;
+  }
+
+  .navbar__links--desktop {
+    display: flex;
+  }
+
+  .navbar__icon-btn--mobile-only {
+    display: none;
+  }
+}

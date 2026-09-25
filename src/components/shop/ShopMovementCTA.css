@@ -1,0 +1,21 @@
+/* Full-bleed closing banner. The image carries all of its own text, so it is
+   always shown whole (never cropped) and scales with the viewport width. */
+.shop-movement {
+  background-color: #010000; /* matches the artwork's black edges */
+  line-height: 0;
+}
+
+.shop-movement__link {
+  display: block;
+}
+
+.shop-movement__link:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: -4px;
+}
+
+.shop-movement__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}

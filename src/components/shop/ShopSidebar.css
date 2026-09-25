@@ -1,0 +1,154 @@
+.shop-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.shop-sidebar__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-hairline);
+}
+
+.shop-sidebar__reset {
+  font-size: var(--size-small);
+  color: var(--color-graphite);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.shop-sidebar__reset:hover {
+  color: var(--color-signal);
+}
+
+.shop-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.shop-sidebar__label {
+  color: var(--color-ink);
+}
+
+.shop-sidebar__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.shop-sidebar__size {
+  min-width: 2.5rem;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-hairline-light);
+  font-size: var(--size-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.shop-sidebar__size:hover {
+  border-color: var(--color-ink);
+}
+
+.shop-sidebar__size.is-active {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.shop-sidebar__colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.shop-sidebar__color {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--swatch);
+  border: 1px solid rgba(12, 12, 11, 0.15);
+  cursor: pointer;
+  box-shadow: 0 0 0 1px var(--color-white) inset;
+  transition: transform var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.shop-sidebar__color:hover {
+  transform: scale(1.1);
+}
+
+.shop-sidebar__color.is-active {
+  box-shadow: 0 0 0 2px var(--color-white) inset, 0 0 0 2px var(--color-ink);
+}
+
+.shop-sidebar__checks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.shop-sidebar__check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--size-small);
+  color: var(--color-graphite);
+  cursor: pointer;
+}
+
+.shop-sidebar__check input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-ink);
+  cursor: pointer;
+}
+
+.shop-sidebar__check:hover span {
+  color: var(--color-ink);
+}
+
+/* ---- Promo card ----
+   The image already has its headline, arrow and wordmark composited in
+   at design time, so this card just frames that finished graphic — no
+   extra CSS scrim/text on top (that would double up with what's baked
+   into the photo, same fix as the category tiles strip). */
+
+.shop-sidebar__promo {
+  position: relative;
+  display: block;
+  /* Slightly taller than the plain 3:4 crop for a bit more presence. */
+  aspect-ratio: 3 / 4.3;
+  overflow: hidden;
+  background-color: var(--color-ink);
+}
+
+.shop-sidebar__promo-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.shop-sidebar__promo-image img {
+  transition: transform 600ms var(--ease-standard);
+}
+
+.shop-sidebar__promo:hover .shop-sidebar__promo-image img {
+  transform: scale(1.04);
+}
+
+.shop-sidebar__promo:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  .shop-sidebar {
+    display: none;
+  }
+}

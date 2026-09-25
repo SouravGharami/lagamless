@@ -1,0 +1,42 @@
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeleton-card__image {
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-paper);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-card__line {
+  height: 0.7rem;
+  background-color: var(--color-paper);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-card__line--name {
+  width: 70%;
+}
+
+.skeleton-card__line--price {
+  width: 35%;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card__image,
+  .skeleton-card__line {
+    animation: none;
+  }
+}

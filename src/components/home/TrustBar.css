@@ -1,0 +1,106 @@
+.trust-bar {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.trust-bar__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  list-style: none;
+}
+
+.trust-bar__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-3);
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.trust-bar__item:last-child {
+  border-right: none;
+}
+
+.trust-bar__icon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-white);
+  border-radius: 999px;
+  color: var(--color-white);
+  padding: 8px;
+}
+
+.trust-bar__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.trust-bar__copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  align-items: flex-start;
+}
+
+.trust-bar__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+}
+
+.trust-bar__detail {
+  font-size: var(--size-micro);
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 2px;
+}
+
+@media (max-width: 1024px) {
+  .trust-bar__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .trust-bar__item:nth-child(3) {
+    border-right: none;
+  }
+
+  .trust-bar__item:nth-child(1),
+  .trust-bar__item:nth-child(2),
+  .trust-bar__item:nth-child(3) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+}
+
+@media (max-width: 640px) {
+  .trust-bar__grid {
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+    display: flex;
+    scrollbar-width: none;
+  }
+
+  .trust-bar__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trust-bar__item {
+    flex: none;
+    width: 46vw;
+    max-width: 220px;
+    border-bottom: none;
+    scroll-snap-align: start;
+  }
+
+  .trust-bar__grid {
+    scroll-snap-type: x mandatory;
+  }
+}

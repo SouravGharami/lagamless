@@ -1,0 +1,108 @@
+/* Sits at the top of the product column (light .shop-page-section) —
+   styled for that paper surface, unlike the old dark-bar version. */
+
+.shop-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--border-hairline);
+  margin-bottom: var(--space-6);
+}
+
+.shop-toolbar__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-h3);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+
+.shop-toolbar__count {
+  font-weight: var(--weight-regular);
+  color: var(--color-graphite);
+}
+
+.shop-toolbar__row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.shop-toolbar__sort {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.shop-toolbar__sort svg {
+  position: absolute;
+  right: var(--space-3);
+  pointer-events: none;
+  color: var(--color-graphite);
+}
+
+.shop-toolbar__select {
+  border: var(--border-hairline-light);
+  padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
+  font-size: var(--size-small);
+  color: var(--color-ink);
+  cursor: pointer;
+  appearance: none;
+  background-color: var(--color-white);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.shop-toolbar__select:focus {
+  border-color: var(--color-ink);
+}
+
+.shop-toolbar__density {
+  display: inline-flex;
+  border: var(--border-hairline-light);
+}
+
+.shop-toolbar__density-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-graphite);
+  cursor: pointer;
+}
+
+.shop-toolbar__density-btn.is-active {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.shop-toolbar__filter-toggle {
+  display: none;
+  background-color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  color: var(--color-white);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 1023px) {
+  .shop-toolbar__filter-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 560px) {
+  .shop-toolbar__row-actions {
+    width: 100%;
+  }
+}

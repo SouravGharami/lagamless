@@ -1,0 +1,45 @@
+/* Lives inside the dark .shop-control-bar (see Shop.css) — styled directly
+   for that dark surface since this component only ever renders there. */
+
+.category-pills {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-1);
+  margin-bottom: var(--space-3);
+  scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pills__item {
+  flex: none;
+  border: 1px solid rgba(241, 239, 233, 0.32);
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--color-silver);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.category-pills__item:hover {
+  border-color: var(--color-white);
+  color: var(--color-white);
+  background-color: rgba(241, 239, 233, 0.08);
+}
+
+.category-pills__item.is-active {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-ink);
+}

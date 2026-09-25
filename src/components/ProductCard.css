@@ -1,0 +1,421 @@
+.product-card {
+  display: block;
+  color: var(--color-ink);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+}
+
+.product-card__image {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-paper);
+  overflow: hidden;
+  border: 1px solid transparent;
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: box-shadow var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    transform 500ms var(--ease-standard);
+}
+
+.product-card:hover .product-card__image {
+  border-color: var(--color-ink);
+  box-shadow: 0 28px 52px -20px rgba(12, 12, 11, 0.45);
+}
+
+/* Cursor-tracked sheen — a soft highlight that follows the pointer,
+   like light catching a held photograph. Decorative only. */
+.product-card__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.4), transparent 45%);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-standard);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.product-card:hover .product-card__image::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .product-card__image {
+    transform: none !important;
+    transition: box-shadow var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard);
+  }
+
+  .product-card__image::after {
+    display: none;
+  }
+}
+
+.product-card__view {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard), color var(--duration-base) var(--ease-standard);
+}
+
+.product-card:hover .product-card__view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card:hover .product-card__view:hover {
+  background-color: var(--color-signal);
+  color: var(--color-white);
+}
+
+/* Touch devices have no hover state, so this overlay would otherwise
+   never reveal itself — show it plainly instead of relying on a hover
+   that can't happen. */
+@media (hover: none) {
+  .product-card__view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--duration-slow) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-standard);
+}
+
+.product-card__img--main {
+  position: relative;
+  opacity: 1;
+}
+
+.product-card__img--secondary {
+  opacity: 0;
+}
+
+/*
+ * BUGFIX — hover image disappearing (see ProductCard.jsx for the full
+ * root-cause note). These two rules used to be unconditional
+ * `.product-card:hover .product-card__img--main/--secondary { ... }`,
+ * which faded the main image to opacity 0 on every hover regardless of
+ * whether a loaded secondary image actually existed to replace it —
+ * producing a blank card whenever there was no secondary image, or
+ * whenever it simply hadn't finished lazy-loading yet.
+ *
+ * Both rules now additionally require the
+ * `.product-card__image--has-hover-image` class, which ProductCard.jsx
+ * only ever adds once the secondary image has *actually* finished
+ * loading successfully. Until then, hovering leaves both opacities
+ * exactly as they start (main visible, secondary hidden) — the primary
+ * image is never hidden until there is something real to show in its
+ * place.
+ */
+.product-card:hover .product-card__image--has-hover-image .product-card__img--main {
+  opacity: 0;
+}
+
+.product-card:hover .product-card__image--has-hover-image .product-card__img--secondary {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.product-card:not(:hover) .product-card__img--main {
+  transform: scale(1);
+}
+
+.product-card:hover .product-card__img--main {
+  transform: scale(1.03);
+}
+
+.product-card--sold-out .product-card__image {
+  opacity: 0.55;
+}
+
+.product-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: var(--space-4);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-paper),
+    var(--color-paper) 10px,
+    #e7e4dc 10px,
+    #e7e4dc 20px
+  );
+}
+
+.product-card__placeholder-mark {
+  font-family: var(--font-display);
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-silver);
+}
+
+.product-card__badges {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  z-index: 1;
+}
+
+.product-card__badge {
+  background-color: var(--color-signal);
+  color: var(--color-white);
+  border-color: var(--color-signal);
+}
+
+.product-card__badge--muted {
+  background-color: var(--color-white);
+  color: var(--color-graphite);
+  border-color: var(--color-silver);
+}
+
+.product-card__number {
+  position: absolute;
+  top: var(--space-3);
+  right: calc(var(--space-3) + 42px);
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  font-family: var(--font-display);
+  font-size: var(--size-small);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+  letter-spacing: var(--tracking-wide);
+  background-color: rgba(12, 12, 11, 0.72);
+  backdrop-filter: blur(2px);
+  padding: 0 var(--space-2);
+  z-index: 1;
+}
+
+.product-card__wishlist {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(12, 12, 11, 0.14);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+
+.product-card__wishlist:hover {
+  transform: scale(1.08);
+}
+
+.product-card__wishlist--saved {
+  color: var(--color-signal);
+}
+
+@keyframes product-card-wishlist-pulse {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.35);
+  }
+  65% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.product-card__wishlist--pulse {
+  animation: product-card-wishlist-pulse 420ms var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card__wishlist--pulse {
+    animation: none;
+  }
+}
+
+.product-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+}
+
+.product-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.product-card__name {
+  font-family: var(--font-display);
+  font-size: var(--size-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.product-card__name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--color-signal);
+  transition: width var(--duration-base) var(--ease-standard);
+}
+
+.product-card:hover .product-card__name::after {
+  width: 100%;
+}
+
+.product-card__sku {
+  font-size: var(--size-micro);
+  color: var(--color-silver);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.product-card__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.product-card__price {
+  color: var(--color-ink);
+  font-weight: var(--weight-semibold);
+  font-size: var(--size-body);
+}
+
+.product-card__compare-price {
+  color: var(--color-silver);
+  text-decoration: line-through;
+}
+
+.product-card__swatches {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.product-card__swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--swatch);
+  border: 1px solid rgba(12, 12, 11, 0.15);
+  box-shadow: 0 0 0 1px var(--color-white) inset;
+}
+
+.product-card__swatch-more {
+  font-size: var(--size-micro);
+  color: var(--color-silver);
+}
+
+.product-card__bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.product-card__quick-add {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: var(--border-hairline);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.product-card__quick-add:hover {
+  background-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.product-card__quick-add--added {
+  background-color: var(--color-signal);
+  border-color: var(--color-signal);
+  color: var(--color-white);
+}
+
+.product-card__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.product-card__size {
+  font-size: var(--size-micro);
+  font-weight: var(--weight-medium);
+  color: var(--color-graphite);
+  border: var(--border-hairline-light);
+  padding: 2px var(--space-2);
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.product-card:hover .product-card__size:not(.product-card__size--out) {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.product-card__size--out {
+  color: var(--color-silver);
+  text-decoration: line-through;
+}

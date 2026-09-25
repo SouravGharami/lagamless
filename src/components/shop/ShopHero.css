@@ -1,0 +1,177 @@
+/* ==========================================================================
+   Shop hero — one full-bleed campaign photograph, brand wordmark script in
+   the top-right corner, headline block bottom-left. Rendered outside
+   <Container> so the photo runs edge to edge with zero side gutters, same
+   as the homepage Hero.
+   ========================================================================== */
+
+.shop-hero {
+  position: relative;
+  min-height: clamp(30rem, 92vh, 38rem);
+  overflow: hidden;
+  background-color: var(--color-ink);
+  /* Pull the hero up underneath the transparent navbar (see
+     .navbar--overlay) so the photo starts directly beneath the black
+     announcement bar with no white nav strip in between — reads off the
+     same --navbar-h custom property as the homepage Hero (global.css)
+     so the two can never drift out of sync. */
+  margin-top: calc(-1 * var(--navbar-h));
+}
+
+@media (min-width: 768px) {
+  .shop-hero {
+    /* Tall enough to comfortably fit the bottom-anchored copy block with
+       real breathing room above it, so nothing ever crowds the navbar. */
+    min-height: clamp(40rem, 88vh, 46rem);
+    margin-top: calc(-1 * var(--navbar-h-desktop));
+  }
+}
+
+@media (min-width: 1400px) {
+  .shop-hero {
+    min-height: 48rem;
+  }
+}
+
+.shop-hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+.shop-hero__image {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.shop-hero__image img {
+  object-position: 68% 30%;
+}
+
+.shop-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(12, 12, 11, 0.94) 0%,
+    rgba(12, 12, 11, 0.68) 32%,
+    rgba(12, 12, 11, 0.14) 58%,
+    rgba(12, 12, 11, 0.3) 100%
+  ),
+  linear-gradient(0deg, rgba(12, 12, 11, 0.62) 0%, rgba(12, 12, 11, 0) 46%);
+}
+
+/* ---- Handwritten mark, top-right ---- */
+
+.shop-hero__signature {
+  position: absolute;
+  z-index: 1;
+  /* Same navbar-height safe offset as the copy block, so the tagline
+     never sits inside the transparent nav row. */
+  top: calc(var(--navbar-h) + var(--space-5));
+  right: var(--container-padding);
+  text-align: right;
+  color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .shop-hero__signature {
+    top: calc(var(--navbar-h-desktop) + var(--space-6));
+  }
+}
+
+.shop-hero__script {
+  font-family: var(--font-script);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.shop-hero__crown {
+  margin-top: var(--space-2);
+  margin-left: auto;
+  color: var(--color-white);
+}
+
+/* ---- Headline block, bottom-left ---- */
+
+.shop-hero__content {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Top padding reserves the transparent navbar's own height (--navbar-h,
+     --navbar-h-desktop from 768px up) plus a real gap, so the eyebrow/title
+     can never crowd the nav row no matter how the copy block's height
+     changes. */
+  padding: calc(var(--navbar-h) + var(--space-7)) var(--container-padding) var(--space-8);
+  max-width: 42rem;
+  color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .shop-hero__content {
+    padding-top: calc(var(--navbar-h-desktop) + var(--space-8));
+    padding-bottom: var(--space-9);
+  }
+}
+
+.shop-hero__eyebrow {
+  color: var(--color-silver);
+  margin-bottom: var(--space-2);
+}
+
+.shop-hero__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
+  font-weight: var(--weight-black);
+  line-height: 0.94;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.shop-hero__tagline {
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.shop-hero__intro {
+  margin-top: var(--space-3);
+  max-width: 40ch;
+  font-size: var(--size-small);
+  color: var(--color-silver);
+  line-height: var(--leading-relaxed);
+}
+
+.shop-hero__cta {
+  margin-top: var(--space-6);
+  width: fit-content;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border-color: var(--color-white);
+}
+
+.shop-hero__cta:hover {
+  background-color: var(--color-signal);
+  color: var(--color-white);
+  border-color: var(--color-signal);
+}
+
+.shop-hero__count {
+  margin-top: var(--space-4);
+  font-size: var(--size-small);
+  color: var(--color-silver);
+}
+
+.shop-hero__count strong {
+  color: var(--color-white);
+  font-weight: var(--weight-bold);
+}

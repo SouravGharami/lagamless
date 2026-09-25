@@ -1,0 +1,47 @@
+.whatsapp-fab {
+  position: fixed;
+  right: var(--space-5);
+  bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #25d366;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(12, 12, 11, 0.28);
+  z-index: 40;
+  transition: transform var(--duration-base) var(--ease-standard),
+    bottom var(--duration-base) var(--ease-standard);
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.08);
+}
+
+.whatsapp-fab svg {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 640px) {
+  .whatsapp-fab {
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    width: 46px;
+    height: 46px;
+  }
+  .whatsapp-fab svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ---- Product page: the sticky "Add to bag" bar (see StickyBuyBar.css)
+   is fixed to the same bottom edge on small screens. Lift the WhatsApp
+   bubble clear of it whenever that bar is visible anywhere on the page,
+   however deeply it's nested in the DOM, so the two never overlap. ---- */
+body:has(.sticky-buy--visible) .whatsapp-fab {
+  bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+}

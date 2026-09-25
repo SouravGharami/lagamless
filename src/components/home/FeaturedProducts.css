@@ -1,0 +1,322 @@
+/* ==========================================================================
+   Featured Tees — homepage product wall
+   Tight, editorial, high-contrast. No `<Section>` wrapper is used here on
+   purpose: vertical rhythm is owned entirely by this file so the gap to
+   the sections above/below stays intentional instead of stacking two
+   generous section paddings on top of each other.
+   ========================================================================== */
+
+.featured-products {
+  position: relative;
+  background-color: var(--color-ink);
+  padding-block: clamp(2rem, 4vw, 3.25rem) clamp(2.25rem, 4.5vw, 3.5rem);
+}
+
+/* A hairline + oversized ghost numeral sitting behind the header gives the
+   section a masthead feel without adding any extra vertical space. */
+.featured-products::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-white) 0%,
+    var(--color-white) 15%,
+    rgba(255, 255, 255, 0.25) 15%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+}
+
+/* ---- Header ---- */
+
+.featured-products__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.featured-products__heading-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.featured-products__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-signal);
+}
+
+.featured-products__kicker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-signal);
+  box-shadow: 0 0 0 3px rgba(110, 35, 32, 0.14);
+}
+
+.featured-products__headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+  line-height: 0.96;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.featured-products__headline em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-white);
+}
+
+.featured-products__eyebrow {
+  font-size: var(--size-small);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.featured-products__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.featured-products__count {
+  display: none;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--size-small);
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding-right: var(--space-5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.featured-products__count-num {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-h3);
+  color: var(--color-white);
+  letter-spacing: var(--tracking-tight);
+}
+
+.featured-products__cta {
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  color: var(--color-white);
+}
+
+.featured-products .btn-ghost {
+  color: var(--color-white);
+}
+
+.featured-products .btn-ghost:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.featured-products__cta span {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.featured-products__cta:hover span {
+  transform: translateX(4px);
+}
+
+@media (min-width: 640px) {
+  .featured-products__count {
+    display: inline-flex;
+  }
+}
+
+/* ---- Marquee — ambient motion strip between the header and the grid ---- */
+
+.featured-products__marquee {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+  border-block: 1px solid rgba(255, 255, 255, 0.14);
+  padding-block: var(--space-2);
+}
+
+.featured-products__marquee-track {
+  display: flex;
+  width: max-content;
+  animation: featured-products-marquee 24s linear infinite;
+}
+
+.featured-products__marquee:hover .featured-products__marquee-track {
+  animation-play-state: paused;
+}
+
+.featured-products__marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.featured-products__marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-7);
+  padding-inline: calc(var(--space-7) / 2);
+  font-family: var(--font-display);
+  font-size: var(--size-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+}
+
+.featured-products__marquee-dot {
+  color: var(--color-signal);
+  font-size: 0.7em;
+}
+
+@keyframes featured-products-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-products__marquee-track {
+    animation: none;
+  }
+}
+
+/* ---- Product grid ---- */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5) var(--space-3);
+}
+
+.product-grid__slot {
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.product-grid__slot:hover {
+  transform: translateY(-6px);
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6) var(--space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .product-grid {
+    gap: var(--space-6) var(--space-5);
+  }
+}
+
+/* ---- Product cards on this section's black background ----
+   Same dark-card treatment used on the Product detail page's related-
+   products strip (see Product.css's .product-page--dark .product-card
+   rules) — ProductCard.css's own colors assume a light/paper background,
+   so this section needs the same light-on-dark overrides. */
+
+.featured-products .product-card {
+  color: var(--color-white);
+}
+
+.featured-products .product-card__image {
+  background-color: var(--color-charcoal);
+}
+
+.featured-products .product-card:hover .product-card__image {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 28px 52px -20px rgba(0, 0, 0, 0.7);
+}
+
+.featured-products .product-card__placeholder {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-charcoal),
+    var(--color-charcoal) 10px,
+    #2a2926 10px,
+    #2a2926 20px
+  );
+}
+
+.featured-products .product-card__sku {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.featured-products .product-card__price {
+  color: var(--color-white);
+}
+
+.featured-products .product-card__compare-price {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.featured-products .product-card__size {
+  color: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.featured-products .product-card:hover .product-card__size:not(.product-card__size--out) {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.featured-products .product-card__size--out {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.featured-products .product-card__quick-add {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--color-white);
+}
+
+.featured-products .product-card__quick-add:hover {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.featured-products .product-card__view {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}

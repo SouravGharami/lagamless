@@ -1,0 +1,61 @@
+-- ============================================================================
+-- LAGAMLESS — Part 22 migration: return inspection stage
+--
+-- Context: the admin Returns page (src/admin/pages/AdminReturns.jsx) can
+-- already move a return 'pickup' → 'received' (Part 21's "Mark as
+-- Received" button — see part-21-returns-received-at.sql). This step adds
+-- the next stage, Return Inspection:
+--
+--   received --[Start Inspection]--> inspection
+--   inspection --[Inspection Passed]--> refund_pending
+--   inspection --[Inspection Failed]--> rejected  (rejection_reason saved)
+--
+-- Scope of THIS migration: one nullable column, nothing else.
+--   - `inspection_started_at timestamptz`, nullable, no default — same
+--     shape as `returns.received_at` (part-21-returns-received-at.sql),
+--     `orders.shipped_at` and `orders.delivered_at`: empty for every
+--     existing row and for any return that hasn't reached 'inspection'
+--     yet, stamped exactly once, in the same UPDATE that sets `status =
+--     'inspection'`, by the app layer (`new Date().toISOString()`), not a
+--     DB trigger/default — see startInspection() in
+--     src/services/adminReturns.js.
+--
+-- No new column is needed for the "why did inspection fail" reason: an
+-- inspection failure ends the return in `status = 'rejected'`, the exact
+-- same terminal state a Part 19 "Reject" decision at the `requested`
+-- stage already lands in, so failInspection() in
+-- src/services/adminReturns.js reuses the existing
+-- `returns.rejection_reason` column (part-20-returns-rejection-reason.sql)
+-- to save it, in the same UPDATE. That column has always meant "why this
+-- return was rejected" regardless of which stage the rejection happened
+-- at, so no schema change is needed there.
+--
+-- `refund_pending` and `inspection` are two new values for the
+-- already-unconstrained `returns.status` column — see part-17's header
+-- note on why there is deliberately no check constraint on `status`.
+-- Nothing here changes that; this migration adds no constraint, only the
+-- one new timestamp column.
+--
+-- Explicitly NOT in scope: the actual refund / Razorpay refund call for a
+-- return that reaches `refund_pending` — that stage only records the
+-- outcome and stops. No RLS/grant changes either (part-19's `for all`
+-- admin policy already covers every column on this table, this one
+-- included).
+--
+-- Safe to re-run: `add column if not exists`. Does not touch any
+-- existing row's data (every existing row simply gets `null` here).
+-- ============================================================================
+
+alter table public.returns add column if not exists inspection_started_at timestamptz;
+
+-- ============================================================================
+-- End of Part 22 migration.
+--
+-- After running this in the Supabase SQL Editor, a return in 'received'
+-- status will show a "Start Inspection" button on /admin/returns; clicking
+-- it sets status = 'inspection' and stamps this column in the same
+-- update. From 'inspection', "Inspection Passed" moves status to
+-- 'refund_pending' (no further automation yet — the refund itself is a
+-- later step), and "Inspection Failed" moves status to 'rejected' and
+-- saves the admin's reason to the existing `rejection_reason` column.
+-- ============================================================================
