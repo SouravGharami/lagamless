@@ -1,0 +1,99 @@
+/* Replacement-request dialog — reuses the return dialog's modal shell
+   (.return-dialog*, imported by the component) and only adds what's specific
+   to picking a replacement: item summary, size chips and color options. */
+
+.replace-dialog__summary {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-paper);
+  color: var(--color-graphite);
+}
+
+.replace-dialog__summary strong {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+}
+
+.replace-dialog__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* A selectable size / color option. Native <button>s so keyboard + screen
+   reader behaviour (focus, Space/Enter, aria-pressed) comes for free. */
+.replace-dialog__choice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 3rem;
+  min-height: 2.5rem;
+  padding: var(--space-2) var(--space-4);
+  justify-content: center;
+  border: var(--border-hairline-light);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-size: var(--size-small);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.replace-dialog__choice:hover:not(:disabled) {
+  border-color: var(--color-ink);
+}
+
+.replace-dialog__choice:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.replace-dialog__choice[aria-pressed='true'] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.replace-dialog__choice:disabled {
+  color: var(--color-silver);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.replace-dialog__choice-tag {
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.replace-dialog__dot {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--color-silver);
+}
+
+.replace-dialog__hint {
+  color: var(--color-graphite);
+}
+
+.replace-dialog__confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--border-hairline-light);
+}
+
+.replace-dialog__confirmation dt {
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-graphite);
+}
+
+.replace-dialog__confirmation dd {
+  margin: 0 0 var(--space-2);
+}

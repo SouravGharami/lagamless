@@ -1,0 +1,491 @@
+/* ==========================================================================
+   Product Gallery — premium "studio frame" presentation.
+
+   Every uploaded mockup, whatever its native background, is displayed on
+   the same warm neutral stage (--color-paper) with generous breathing
+   room around the garment (object-fit: contain, not cover) so a batch of
+   photos from different shoots/angles still reads as one consistent,
+   editorial product shoot — the single biggest lever for making mockups
+   look "expensive" rather than "uploaded". Desktop gets a vertical
+   thumbnail rail beside a large stage (the layout most premium streetwear
+   sites use — Kith, SSENSE, Aime Leon Dore); mobile gets a big stage with
+   a horizontal filmstrip beneath it. A click opens a full-screen lightbox
+   for the close, detailed look shoppers want before they buy.
+   ========================================================================== */
+
+.product-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .product-gallery {
+    position: sticky;
+    top: var(--space-6);
+    grid-template-columns: 84px 1fr;
+    grid-template-rows: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+}
+
+/* ---- Stage (active image) ---- */
+
+.product-gallery__main {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  aspect-ratio: 4 / 5;
+  background-color: var(--color-paper);
+  overflow: hidden;
+  outline: none;
+  touch-action: pan-y;
+  cursor: zoom-in;
+}
+
+@media (min-width: 900px) {
+  .product-gallery__main {
+    grid-column: 2;
+  }
+}
+
+.product-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-6);
+  animation: gallery-fade var(--duration-slow) var(--ease-standard);
+  transition: transform var(--duration-slow) var(--ease-standard);
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .product-gallery__img {
+    padding: var(--space-4);
+  }
+}
+
+/* Hover-zoom: fine-pointer devices only, so a tap on mobile never leaves
+   the image stuck mid-zoom (touch has no "mouse leave" to reset it). The
+   transform-origin is updated live from mousemove (see the component's
+   handleStageMouseMove), so the zoom tracks the cursor like a loupe. */
+@media (hover: hover) and (pointer: fine) {
+  .product-gallery__img--zoomed {
+    transform: scale(1.55);
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+}
+
+/* ---- Color recolor effect (Part 12) ----
+   A shopper-picked color other than "as photographed" is recolored on a
+   canvas to the exact target hex (see src/lib/recolorImage.js) and swapped
+   in as the image src directly — no CSS filter/blend layer needed here
+   anymore, the pixels themselves are already the right color. */
+
+@keyframes gallery-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-gallery__img,
+  .product-gallery__lightbox-img {
+    animation: none;
+    transition: none;
+  }
+}
+
+.product-gallery__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: var(--space-5);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-charcoal),
+    var(--color-charcoal) 10px,
+    #2a2926 10px,
+    #2a2926 20px
+  );
+}
+
+.product-gallery__placeholder span:first-child {
+  font-family: var(--font-display);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.product-gallery__placeholder-view {
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+}
+
+/* ---- Editorial caption + counter, bottom-left of the stage ---- */
+
+.product-gallery__caption {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 6px 10px;
+  background-color: rgba(12, 12, 11, 0.72);
+  backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+
+.product-gallery__caption-count {
+  font-size: var(--size-micro);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.product-gallery__caption-label {
+  font-size: var(--size-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+/* ---- "View full size" hint, top-right, fades in on hover/focus ---- */
+
+.product-gallery__zoom-hint {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background-color: rgba(12, 12, 11, 0.72);
+  color: var(--color-white);
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-gallery__main:hover .product-gallery__zoom-hint,
+  .product-gallery__main:focus-visible .product-gallery__zoom-hint {
+    opacity: 1;
+  }
+}
+
+.product-gallery__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(12, 12, 11, 0.6);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.product-gallery__nav:hover {
+  opacity: 1;
+}
+
+.product-gallery__nav--prev {
+  left: var(--space-3);
+}
+
+.product-gallery__nav--next {
+  right: var(--space-3);
+}
+
+.product-gallery__dots {
+  position: absolute;
+  bottom: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.product-gallery__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background-color: rgba(12, 12, 11, 0.35);
+}
+
+.product-gallery__dot--active {
+  background-color: var(--color-ink);
+}
+
+/* ---- Thumbnail rail ----
+   Vertical, beside the stage, on desktop; horizontal filmstrip below the
+   stage on mobile. Only images that actually exist render here (an empty
+   slot never gets a placeholder tile in the rail — an unfinished upload
+   shouldn't visually gap out the shopper-facing gallery). */
+
+.product-gallery__thumbs {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-2);
+}
+
+@media (min-width: 900px) {
+  .product-gallery__thumbs {
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    max-height: min(640px, 80vh);
+    overflow-y: auto;
+    padding-right: 2px;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 420px) {
+  .product-gallery__thumbs {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 340px) {
+  .product-gallery__thumbs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.product-gallery__thumb {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.product-gallery__thumb-frame {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-paper);
+  border: 1px solid rgba(12, 12, 11, 0.12);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.product-gallery__thumb-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.product-gallery__thumb:hover .product-gallery__thumb-frame {
+  border-color: rgba(12, 12, 11, 0.35);
+}
+
+.product-gallery__thumb--active .product-gallery__thumb-frame {
+  border-color: var(--color-ink);
+}
+
+/* A slim ink underline marks the active thumb — a lighter touch than a
+   full border-color swap alone, and reads clearly even at a glance. */
+.product-gallery__thumb--active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--color-ink);
+}
+
+@media (min-width: 900px) {
+  .product-gallery__thumb--active::after {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+}
+
+/* ==========================================================================
+   Full-screen lightbox
+   ========================================================================== */
+
+.product-gallery__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-gallery__lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  background-color: rgba(12, 12, 11, 0.94);
+  cursor: pointer;
+  animation: gallery-lightbox-fade var(--duration-base) var(--ease-standard);
+}
+
+@keyframes gallery-lightbox-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.product-gallery__lightbox-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+}
+
+.product-gallery__lightbox-title {
+  font-family: var(--font-display);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.product-gallery__lightbox-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.product-gallery__lightbox-close:hover {
+  border-color: var(--color-white);
+}
+
+.product-gallery__lightbox-stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-6) var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .product-gallery__lightbox-stage {
+    padding: 0 var(--space-3) var(--space-3);
+  }
+}
+
+.product-gallery__lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: zoom-in;
+  animation: gallery-fade var(--duration-base) var(--ease-standard);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.product-gallery__lightbox-img--zoomed {
+  transform: scale(1.9);
+  cursor: zoom-out;
+}
+
+.product-gallery__nav--lightbox {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.product-gallery__lightbox-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.product-gallery__lightbox-count {
+  font-size: var(--size-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.product-gallery__lightbox-thumbs {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.product-gallery__lightbox-thumb {
+  flex: 0 0 auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.product-gallery__lightbox-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.product-gallery__lightbox-thumb--active {
+  border-color: var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-gallery__lightbox-backdrop {
+    animation-duration: 0.01ms;
+  }
+}

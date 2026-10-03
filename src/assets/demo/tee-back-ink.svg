@@ -1,0 +1,71 @@
+<svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ga2bg" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#f5f4f0"/>
+      <stop offset="100%" stop-color="#f1efe9"/>
+    </radialGradient>
+    <linearGradient id="ga2body" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#161514"/>
+      <stop offset="18%" stop-color="#201f1d"/>
+      <stop offset="46%" stop-color="#31302f"/>
+      <stop offset="60%" stop-color="#201f1d"/>
+      <stop offset="100%" stop-color="#161514"/>
+    </linearGradient>
+    <linearGradient id="ga2sleeveL" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#31302f"/><stop offset="100%" stop-color="#161514"/>
+    </linearGradient>
+    <linearGradient id="ga2sleeveR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#31302f"/><stop offset="100%" stop-color="#161514"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#ga2bg)"/>
+  <line x1="485" y1="275" x2="693" y2="275" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="541" y1="682" x2="670" y2="682" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="146" y1="390" x2="188" y2="390" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="383" y1="494" x2="493" y2="494" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="658" y1="829" x2="815" y2="829" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="707" y1="885" x2="900" y2="885" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="233" y1="571" x2="273" y2="571" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="677" y1="639" x2="754" y2="639" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="450" y1="376" x2="531" y2="376" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="347" y1="927" x2="440" y2="927" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="60" y1="590" x2="151" y2="590" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="76" y1="525" x2="291" y2="525" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="345" y1="697" x2="488" y2="697" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="89" y1="19" x2="144" y2="19" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="677" y1="521" x2="774" y2="521" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="93" y1="433" x2="246" y2="433" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="115" y1="676" x2="263" y2="676" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="138" y1="552" x2="258" y2="552" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="636" y1="571" x2="717" y2="571" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="713" y1="906" x2="766" y2="906" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="568" y1="175" x2="737" y2="175" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="85" y1="410" x2="280" y2="410" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="428" y1="684" x2="620" y2="684" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="480" y1="488" x2="675" y2="488" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="393" y1="554" x2="440" y2="554" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="656" y1="743" x2="717" y2="743" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="196" y1="999" x2="405" y2="999" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="267" y1="364" x2="399" y2="364" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="706" y1="394" x2="918" y2="394" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+<line x1="317" y1="116" x2="421" y2="116" stroke="#b7b3a9" stroke-width="1" opacity="0.03"/>
+  <ellipse cx="400" cy="870" rx="230" ry="24" fill="#0c0c0b" opacity="0.10"/>
+  <path d="M 236 258 C 200 268 150 320 96 430 C 84 454 90 476 112 490 L 168 522
+           C 186 480 224 420 268 372 Z" fill="url(#ga2sleeveL)"/>
+  <path d="M 564 258 C 600 268 650 320 704 430 C 716 454 710 476 688 490 L 632 522
+           C 614 480 576 420 532 372 Z" fill="url(#ga2sleeveR)"/>
+  <path d="M 268 372
+           C 272 300 320 244 400 240
+           C 480 244 528 300 532 372
+           L 566 824
+           C 480 860 320 860 234 824 Z" fill="url(#ga2body)"/>
+  <path d="M 400 260 C 396 420 394 620 398 822" stroke="#51504e" stroke-width="10" opacity="0.18" stroke-linecap="round" fill="none"/>
+  <path d="M 300 300 C 296 460 300 660 312 820" stroke="#161514" stroke-width="6" opacity="0.20" fill="none"/>
+  <path d="M 500 300 C 504 460 500 660 488 820" stroke="#161514" stroke-width="6" opacity="0.20" fill="none"/>
+  <!-- back neck (no rib break, plain curve) -->
+  <path d="M 362 246 C 380 258 420 258 438 246" stroke="#444343" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 236 822 C 320 848 480 848 564 822 L 566 838 C 480 864 320 864 234 838 Z" fill="#161514" opacity="0.55"/>
+  <path d="M 108 486 L 172 520 L 160 540 L 98 508 Z" fill="#161514" opacity="0.5"/>
+  <path d="M 692 486 L 628 520 L 640 540 L 702 508 Z" fill="#161514" opacity="0.5"/>
+  
+</svg>

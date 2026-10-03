@@ -1,0 +1,430 @@
+/* ---------------------------------------------------------------------- */
+/* Control bar — just the breadcrumb, sitting directly under the tile row  */
+/* ---------------------------------------------------------------------- */
+
+.shop-control-bar {
+  background-color: var(--color-ink);
+}
+
+.shop-control-bar .breadcrumbs {
+  margin-bottom: 0;
+  padding-block: var(--space-4);
+}
+
+.shop-control-bar .breadcrumbs ol,
+.shop-control-bar .breadcrumbs__link {
+  color: var(--color-silver);
+}
+
+.shop-control-bar .breadcrumbs__link:hover,
+.shop-control-bar .breadcrumbs [aria-current='page'] {
+  color: var(--color-white);
+}
+
+.shop-control-bar .breadcrumbs__sep {
+  color: var(--color-graphite);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Dark section — filter rail + grid                                       */
+/* Near-black surface with a faint light dot-grid, a soft oxide-red glow   */
+/* top-right and a faint light glow bottom-left. Content is lifted onto    */
+/* its own stacking layer so the decoration never sits on top of a card    */
+/* or the text. All light-on-dark colour overrides for the components      */
+/* rendered inside this section live in the block at the end of this file, */
+/* scoped to .shop-page-section so the same components (product card,      */
+/* breadcrumbs…) are unchanged on the Product page and the homepage.       */
+/* ---------------------------------------------------------------------- */
+
+.section.shop-page-section {
+  --shop-line: rgba(241, 239, 233, 0.24);
+
+  position: relative;
+  overflow: hidden;
+  padding-top: 0;
+  background-color: var(--color-ink);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: var(--color-paper);
+}
+
+.shop-page-section::before,
+.shop-page-section::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.shop-page-section::before {
+  width: 34rem;
+  height: 34rem;
+  top: -14rem;
+  right: -11rem;
+  background: radial-gradient(circle, rgba(110, 35, 32, 0.32), transparent 72%);
+}
+
+.shop-page-section::after {
+  width: 30rem;
+  height: 30rem;
+  bottom: -12rem;
+  left: -10rem;
+  background: radial-gradient(circle, rgba(241, 239, 233, 0.07), transparent 72%);
+}
+
+.shop-page-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Two-column layout — persistent filter rail (desktop) + product column   */
+/* ---------------------------------------------------------------------- */
+
+.shop-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.shop-main {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .shop-layout {
+    grid-template-columns: 17rem 1fr;
+    align-items: start;
+  }
+}
+
+/* Product cards get a slightly richer entrance than the site-wide .reveal
+   (plain fade + rise) — a soft blur-and-scale resolve so each product
+   settles into place on screen instead of just popping into view. Scoped
+   to .shop-grid so every other Reveal usage on the site is untouched. */
+.shop-grid .reveal {
+  opacity: 0;
+  transform: translateY(36px) scale(0.96);
+  filter: blur(6px);
+  transition: opacity 650ms var(--ease-standard), transform 650ms var(--ease-standard),
+    filter 650ms var(--ease-standard);
+}
+
+.shop-grid .reveal--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* Base .shop-grid layout (2 / 3 / 4 columns) lives in styles/global.css so
+   Shop and the Product page's "You may also like" section share one
+   definition. Inside the narrower product column of this two-column
+   layout, the 4-up breakpoint is pushed out so cards never get cramped
+   next to the filter rail. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .shop-main .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .shop-grid--compact {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4) var(--space-3);
+  }
+
+  .shop-grid--compact .product-card__sizes,
+  .shop-grid--compact .product-card__sku {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Light-on-dark overrides for everything inside the dark shop section     */
+/* ---------------------------------------------------------------------- */
+
+/* Keyboard focus ring must be visible on black. */
+.shop-page-section :focus-visible {
+  outline-color: var(--color-white);
+}
+
+/* The mobile filter drawer is a white panel that happens to live inside
+   this section — keep its own dark-on-white colours. */
+.filter-drawer {
+  color: var(--color-ink);
+}
+
+.filter-drawer :focus-visible {
+  outline-color: var(--color-ink);
+}
+
+/* ---- Sidebar ---- */
+
+.shop-page-section .shop-sidebar__title {
+  color: var(--color-white);
+}
+
+.shop-page-section .shop-sidebar__header {
+  border-bottom-color: var(--shop-line);
+}
+
+.shop-page-section .shop-sidebar__reset {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-sidebar__reset:hover {
+  color: var(--color-white);
+}
+
+.shop-page-section .shop-sidebar__label {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-sidebar__size {
+  border-color: var(--shop-line);
+  color: var(--color-paper);
+}
+
+.shop-page-section .shop-sidebar__size:hover {
+  border-color: var(--color-white);
+}
+
+.shop-page-section .shop-sidebar__size.is-active {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.shop-page-section .shop-sidebar__color {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 1px var(--color-ink) inset;
+}
+
+.shop-page-section .shop-sidebar__color.is-active {
+  box-shadow: 0 0 0 2px var(--color-ink) inset, 0 0 0 2px var(--color-white);
+}
+
+.shop-page-section .shop-sidebar__check {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-sidebar__check:hover span {
+  color: var(--color-white);
+}
+
+.shop-page-section .shop-sidebar__check input {
+  accent-color: var(--color-white);
+  color-scheme: dark;
+}
+
+.shop-page-section .shop-sidebar__promo:focus-visible {
+  outline-color: var(--color-white);
+}
+
+/* ---- Toolbar (title, sort, grid density) ---- */
+
+.shop-page-section .shop-toolbar {
+  border-bottom-color: var(--shop-line);
+}
+
+.shop-page-section .shop-toolbar__title {
+  color: var(--color-white);
+}
+
+.shop-page-section .shop-toolbar__count {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-toolbar__sort svg {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-toolbar__select {
+  background-color: var(--color-charcoal);
+  border-color: var(--shop-line);
+  color: var(--color-paper);
+  color-scheme: dark;
+}
+
+.shop-page-section .shop-toolbar__select:focus {
+  border-color: var(--color-white);
+}
+
+.shop-page-section .shop-toolbar__density {
+  border-color: var(--shop-line);
+}
+
+.shop-page-section .shop-toolbar__density-btn {
+  color: var(--color-silver);
+}
+
+.shop-page-section .shop-toolbar__density-btn.is-active {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.shop-page-section .shop-toolbar__filter-toggle {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+/* ---- Active filter chips ---- */
+
+.shop-page-section .active-chips__chip {
+  background-color: var(--color-charcoal);
+  border-color: var(--shop-line);
+  color: var(--color-paper);
+}
+
+.shop-page-section .active-chips__chip button {
+  color: var(--color-silver);
+}
+
+.shop-page-section .active-chips__chip button:hover,
+.shop-page-section .active-chips__clear-all:hover {
+  color: var(--color-white);
+}
+
+.shop-page-section .active-chips__clear-all {
+  color: var(--color-silver);
+}
+
+/* ---- Product cards ---- */
+
+.shop-page-section .product-card {
+  color: var(--color-paper);
+}
+
+.shop-page-section .product-card__image {
+  background-color: var(--color-charcoal);
+}
+
+.shop-page-section .product-card:hover .product-card__image {
+  border-color: var(--color-white);
+  box-shadow: 0 28px 52px -20px rgba(0, 0, 0, 0.8);
+}
+
+.shop-page-section .product-card__placeholder {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-charcoal),
+    var(--color-charcoal) 10px,
+    #292826 10px,
+    #292826 20px
+  );
+}
+
+.shop-page-section .product-card__placeholder-mark {
+  color: var(--color-graphite);
+}
+
+.shop-page-section .product-card__name::after {
+  background-color: var(--color-white);
+}
+
+.shop-page-section .product-card__price {
+  color: var(--color-white);
+}
+
+.shop-page-section .product-card__swatch {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 1px var(--color-ink) inset;
+}
+
+.shop-page-section .product-card__swatch-more {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.shop-page-section .product-card__quick-add {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+.shop-page-section .product-card__quick-add:hover {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.shop-page-section .product-card__quick-add--added {
+  background-color: var(--color-signal);
+  border-color: var(--color-signal);
+  color: var(--color-white);
+}
+
+.shop-page-section .product-card__size {
+  border-color: var(--shop-line);
+  color: var(--color-silver);
+}
+
+.shop-page-section .product-card:hover .product-card__size:not(.product-card__size--out) {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.shop-page-section .product-card__size--out {
+  color: var(--color-graphite);
+}
+
+/* ---- Loading skeleton ---- */
+
+.shop-page-section .skeleton-card__image,
+.shop-page-section .skeleton-card__line {
+  background-color: var(--color-charcoal);
+}
+
+/* ---- Pagination ---- */
+
+.shop-page-section .pagination__arrow,
+.shop-page-section .pagination__page {
+  border-color: var(--shop-line);
+  color: var(--color-paper);
+}
+
+.shop-page-section .pagination__arrow:hover:not(:disabled),
+.shop-page-section .pagination__page:hover {
+  border-color: var(--color-white);
+}
+
+.shop-page-section .pagination__page.is-active {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.shop-page-section .pagination__ellipsis {
+  color: var(--color-graphite);
+}
+
+/* ---- Empty state ---- */
+
+.shop-page-section .empty-state {
+  border-top-color: var(--shop-line);
+}
+
+.shop-page-section .empty-state__title {
+  color: var(--color-white);
+}
+
+.shop-page-section .empty-state .text-lead {
+  color: var(--color-silver);
+}
+
+.shop-page-section .empty-state .btn-secondary {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.shop-page-section .empty-state .btn-secondary:hover {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+/* When a homepage tile (or the pager) scrolls the grid into view, leave a
+   little air above it instead of butting the heading against the window edge. */
+#shop-grid {
+  scroll-margin-top: var(--space-5);
+}

@@ -1,0 +1,384 @@
+/* ==========================================================================
+   Order Success / Order Failed — shared "receipt" presentation
+   Full-bleed black surface, editorial type, a physical ticket-styled card.
+   ========================================================================== */
+
+.order-status {
+  position: relative;
+  min-height: 70vh;
+  background: var(--color-ink);
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+/* faint grain + radial glow so the black isn't flat */
+.order-status::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(255, 255, 255, 0.07), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0px, transparent 1px, transparent 2px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.order-status--failed::before {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(110, 35, 32, 0.35), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0px, transparent 1px, transparent 2px);
+}
+
+.order-status__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.order-status__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-silver);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Status glyph                                                            */
+/* ---------------------------------------------------------------------- */
+
+.order-status__glyph {
+  width: 84px;
+  height: 84px;
+  margin: var(--space-6) 0 var(--space-5);
+}
+
+.order-status__glyph-circle {
+  fill: none;
+  stroke: var(--color-white);
+  stroke-width: 2;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: order-status-draw 0.7s var(--ease-standard) forwards;
+}
+
+.order-status--failed .order-status__glyph-circle {
+  stroke: var(--color-signal-bright, #d3695c);
+}
+
+.order-status__glyph-mark {
+  fill: none;
+  stroke: var(--color-white);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: order-status-draw 0.5s var(--ease-standard) 0.55s forwards;
+}
+
+.order-status--failed .order-status__glyph-mark {
+  stroke: var(--color-signal-bright, #d3695c);
+}
+
+.order-status--cod .order-status__glyph-circle {
+  stroke: var(--color-silver);
+}
+
+.order-status--cod .order-status__glyph-mark {
+  stroke: var(--color-silver);
+}
+
+@keyframes order-status-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Headline block                                                          */
+/* ---------------------------------------------------------------------- */
+
+.order-status__headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+  font-weight: var(--weight-black);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  max-width: 20ch;
+  color: var(--color-white);
+}
+
+.order-status__sub {
+  margin-top: var(--space-4);
+  max-width: 48ch;
+  font-size: var(--size-lead);
+  line-height: var(--leading-relaxed);
+  color: var(--color-silver);
+}
+
+.order-status__id {
+  margin-top: var(--space-5);
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: var(--size-small);
+  letter-spacing: 0.06em;
+  color: var(--color-silver);
+  padding: 0.5em 1em;
+  border: 1px solid rgba(183, 179, 169, 0.3);
+}
+
+.order-status__error-note {
+  margin-top: var(--space-5);
+  max-width: 52ch;
+  font-size: var(--size-small);
+  color: var(--color-silver);
+}
+
+/* ---------------------------------------------------------------------- */
+/* The receipt / ticket card                                              */
+/* ---------------------------------------------------------------------- */
+
+.order-status__ticket {
+  position: relative;
+  margin-top: var(--space-9);
+  width: 100%;
+  max-width: 480px;
+  text-align: left;
+  background: var(--color-charcoal);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* notches on either side, like a physical ticket stub */
+.order-status__ticket::before,
+.order-status__ticket::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--color-ink);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.order-status__ticket::before {
+  left: -14px;
+}
+
+.order-status__ticket::after {
+  right: -14px;
+}
+
+.order-status__ticket-section {
+  padding: var(--space-6) var(--space-7);
+}
+
+.order-status__ticket-section + .order-status__ticket-section {
+  border-top: none;
+}
+
+.order-status__perforation {
+  position: relative;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.18) 0,
+    rgba(255, 255, 255, 0.18) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  background-size: 12px 1px;
+  margin: 0 var(--space-5);
+}
+
+.order-status__ticket-label {
+  font-family: var(--font-body);
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-silver);
+  margin-bottom: var(--space-4);
+}
+
+/* items */
+.order-status__lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.order-status__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--color-paper);
+}
+
+.order-status__line--product {
+  align-items: center;
+}
+
+.order-status__thumb {
+  width: 52px;
+  height: 68px;
+  flex: none;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.order-status__line-info {
+  flex: 1;
+  font-size: var(--size-small);
+  color: var(--color-paper);
+}
+
+.order-status__line-info .order-status__line-meta {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-silver);
+  font-size: var(--size-micro);
+}
+
+.order-status__line-price {
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: var(--size-small);
+  color: var(--color-paper);
+  white-space: nowrap;
+}
+
+/* totals */
+.order-status__totals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.order-status__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--size-small);
+  color: var(--color-silver);
+}
+
+.order-status__row--total {
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-display);
+  font-size: var(--size-h3);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+}
+
+/* address */
+.order-status__address {
+  font-size: var(--size-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-paper);
+}
+
+/* what happens next */
+.order-status__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  counter-reset: step;
+}
+
+.order-status__step {
+  display: flex;
+  gap: var(--space-3);
+  font-size: var(--size-small);
+  color: var(--color-silver);
+  line-height: var(--leading-relaxed);
+}
+
+.order-status__step-num {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--size-micro);
+  font-weight: var(--weight-semibold);
+  color: var(--color-white);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Actions                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.order-status__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.order-status .btn-primary {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border-color: var(--color-white);
+}
+
+.order-status .btn-primary:hover {
+  background-color: var(--color-paper);
+}
+
+.order-status .btn-secondary {
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.order-status .btn-secondary:hover {
+  border-color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.order-status__download {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.order-status__download svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Failed-page accents                                                    */
+/* ---------------------------------------------------------------------- */
+
+.order-status--failed .order-status__id {
+  border-color: rgba(211, 105, 92, 0.35);
+  color: #e2a79e;
+}
+
+.order-status--failed .btn-primary {
+  background-color: var(--color-signal-bright, #c85c50);
+  border-color: var(--color-signal-bright, #c85c50);
+  color: var(--color-white);
+}
+
+.order-status--failed .btn-primary:hover {
+  background-color: #b34e43;
+}
+
+@media (max-width: 640px) {
+  .order-status__ticket-section {
+    padding: var(--space-5);
+  }
+}

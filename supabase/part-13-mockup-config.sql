@@ -1,0 +1,35 @@
+-- ============================================================================
+-- LAGAMLESS — Part 13 migration: mockup studio config
+--
+-- Problem this solves: the admin's new Print Placement & Mockup Studio
+-- (src/admin/components/mockup/MockupStudio.jsx) lets an admin upload DTF
+-- artwork, place it on a garment, and generate front/back/angled product
+-- photos entirely client-side. The generated photos are already covered by
+-- the existing `product_images` table — this migration only adds somewhere
+-- to remember the *layout* (garment color/fabric + each print's position,
+-- size and rotation) so reopening a product later restores it instead of
+-- starting from a blank canvas.
+--
+-- One column only — nothing existing is touched:
+--
+--   products.mockup_config  jsonb, nullable
+--     Shape: { garment: { hex, fabric }, placements: [ { id, artworkId,
+--     artworkName, angle, zoneId, x, y, width, height, rotation, opacity } ] }.
+--     Deliberately does NOT store the artwork's pixel data (that would make
+--     this column huge) — only its file name, so a re-uploaded file with a
+--     matching name is auto-relinked to its saved placement. A product that
+--     has never used the studio simply has mockup_config = null, and every
+--     existing read/write path that doesn't know about this column is
+--     completely unaffected.
+--
+-- Safe to re-run: `add column if not exists`. Nothing existing is dropped
+-- or altered. Run this in the Supabase SQL Editor whenever convenient — the
+-- admin form already tolerates this column being missing (it just can't
+-- restore a saved layout yet) until this is run.
+-- ============================================================================
+
+alter table products add column if not exists mockup_config jsonb;
+
+-- ============================================================================
+-- End of Part 13 migration.
+-- ============================================================================

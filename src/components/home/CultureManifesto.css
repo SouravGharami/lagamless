@@ -1,0 +1,31 @@
+.culture {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- The whole banner is one link over the pre-composed campaign image ---- */
+/* Aspect ratio matches the source artwork (2103 x 748) so the baked-in   */
+/* headline/CTA/tags are never cropped by object-fit: cover.              */
+
+.culture__link {
+  display: block;
+  aspect-ratio: 2103 / 748;
+}
+
+.culture__bg-image.culture__bg-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.culture__bg-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.05);
+  transition: transform var(--duration-slow) var(--ease-standard);
+}
+
+.culture__link:hover .culture__bg-image img {
+  transform: scale(1.015);
+}

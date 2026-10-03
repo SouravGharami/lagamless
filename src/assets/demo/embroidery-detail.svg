@@ -1,0 +1,35 @@
+<svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g54e" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a19"/>
+      <stop offset="100%" stop-color="#090908"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g54e)"/>
+  <line x1="140" y1="449" x2="322" y2="449" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="305" y1="494" x2="469" y2="494" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="389" y1="224" x2="543" y2="224" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="337" y1="591" x2="474" y2="591" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="213" y1="741" x2="304" y2="741" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="57" y1="507" x2="237" y2="507" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="463" y1="612" x2="526" y2="612" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="555" y1="348" x2="727" y2="348" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="300" y1="953" x2="446" y2="953" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="279" y1="557" x2="355" y2="557" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="99" y1="661" x2="205" y2="661" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="284" y1="448" x2="474" y2="448" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="37" y1="385" x2="250" y2="385" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="12" y1="370" x2="120" y2="370" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="0" y1="234" x2="45" y2="234" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="174" y1="913" x2="248" y2="913" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="388" y1="248" x2="434" y2="248" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="717" y1="213" x2="871" y2="213" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="389" y1="593" x2="474" y2="593" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+<line x1="449" y1="244" x2="551" y2="244" stroke="#b7b3a9" stroke-width="1" opacity="0.035"/>
+  <g transform="translate(400,500)">
+    <circle r="150" fill="none" stroke="#f1efe9" stroke-width="3" opacity="0.55"/>
+    <circle r="118" fill="none" stroke="#f1efe9" stroke-width="1.5" opacity="0.35"/>
+    <text x="0" y="14" font-family="Helvetica, Arial, sans-serif" font-weight="800" font-size="44" fill="#f1efe9" text-anchor="middle" letter-spacing="2">LGML</text>
+    <line x1="-88" y1="46" x2="88" y2="46" stroke="#f1efe9" stroke-width="2" opacity="0.6"/>
+  </g>
+</svg>
