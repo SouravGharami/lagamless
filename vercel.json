@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/p/:slug/og.jpg", "destination": "/api/og?slug=:slug" },
+    { "source": "/p/:slug", "destination": "/api/share?slug=:slug" },
+    { "source": "/((?!api/|assets/|brand/|images/).*)", "destination": "/index.html" }
+  ]
+}

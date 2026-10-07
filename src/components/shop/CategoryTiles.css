@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Shop-by-edit strip. The four images are finished graphics (photo + label
+   + blurb + arrow already composited in at design time), so the tiles here
+   just frame that artwork edge to edge — no extra CSS text or scrim, and
+   the aspect ratio matches the source images exactly so nothing is cropped.
+   ========================================================================== */
+
+.category-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background-color: var(--color-ink);
+}
+
+.category-tiles__item {
+  position: relative;
+  display: block;
+  /* Matches the supplied artwork's own 1672:941 canvas — the full image
+     shows with zero cropping, so its baked-in text and arrow always land
+     exactly where they were designed to. */
+  aspect-ratio: 1672 / 941;
+  overflow: hidden;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.category-tiles__image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.category-tiles__image img {
+  transition: transform 600ms var(--ease-standard), filter var(--duration-base) var(--ease-standard);
+}
+
+.category-tiles__item:hover .category-tiles__image img,
+.category-tiles__item.is-active .category-tiles__image img {
+  transform: scale(1.035);
+}
+
+.category-tiles__item:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: -2px;
+}
+
+@media (min-width: 640px) {
+  .category-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-tiles {
+    /* One tidy row of four, same proportions as the brand's reference
+       strip — compact and wide rather than four tall stacked squares. */
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

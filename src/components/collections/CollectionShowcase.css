@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Collection showcase — expanding slats (desktop) / accordion (mobile)
+   ========================================================================== */
+
+.sc { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+.sc__item {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  height: 4.6rem;
+  background: #141312;
+  border: 1px solid var(--c-line);
+  transition: height 520ms cubic-bezier(0.22, 0.8, 0.24, 1), border-color 300ms ease;
+}
+.sc__item.is-active { height: 33rem; border-color: rgba(242, 239, 232, 0.28); }
+
+.sc__bg { position: absolute; inset: 0; z-index: -2; }
+.sc__bg img {
+  width: 100%; height: 100%; object-fit: cover; object-position: var(--focal, 50% 30%);
+  opacity: 0.3; filter: grayscale(0.6);
+  transition: opacity 500ms ease, filter 500ms ease, transform 900ms cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+.sc__item.is-active .sc__bg img { opacity: 1; filter: none; }
+.sc__ph {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 800; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.1);
+  background: repeating-linear-gradient(135deg, #1a1918 0 14px, #131211 14px 28px);
+}
+.sc__shade {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(0deg, rgba(10, 10, 9, 0.96) 0%, rgba(10, 10, 9, 0.7) 42%, rgba(10, 10, 9, 0.1) 78%),
+    linear-gradient(180deg, rgba(10, 10, 9, 0.5), transparent 30%);
+}
+.sc__item:not(.is-active) .sc__shade { background: rgba(10, 10, 9, 0.55); }
+
+/* ---- Tab (always visible header row on phones; vertical label on desktop) --- */
+
+.sc__tab {
+  position: absolute; z-index: 2; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 0.9rem;
+  height: 4.6rem; padding: 0 1.1rem;
+  background: none; border: 0; text-align: left; color: var(--c-text); cursor: pointer;
+}
+.sc__tab:focus-visible { outline: 2px solid var(--color-signal-bright); outline-offset: -4px; }
+.sc__no { font-size: 0.78rem; font-weight: 600; color: var(--c-mute); font-variant-numeric: tabular-nums; }
+.sc__label {
+  flex: 1; min-width: 0;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05;
+}
+.sc__count { font-size: 0.78rem; font-weight: 600; color: var(--c-mute); white-space: nowrap; }
+.sc__chev {
+  width: 0.55rem; height: 0.55rem; margin-left: 0.2rem;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 350ms ease;
+}
+.sc__item.is-active .sc__chev { transform: rotate(-135deg) translate(-2px, -2px); }
+
+/* ---- Panel ---------------------------------------------------------------- */
+
+.sc__panel {
+  position: absolute; inset: 4.6rem 0 0 0; z-index: 1;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 1.1rem 1.1rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity 250ms ease, visibility 0s linear 250ms;
+}
+.sc__item.is-active .sc__panel { opacity: 1; visibility: visible; transition: opacity 400ms ease 260ms, visibility 0s; }
+
+.sc__flags { position: absolute; top: 0.2rem; right: 1.1rem; display: flex; gap: 0.4rem; }
+.sc__flag { padding: 0.28rem 0.55rem; background: var(--color-signal); color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.sc__flag--soft { background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(6px); }
+
+.sc__no-big, .sc__title { display: none; }
+.sc__line { font-size: 1rem; line-height: 1.4; color: rgba(242, 239, 232, 0.86); max-width: 24rem; }
+
+.sc__stats { display: flex; flex-wrap: wrap; gap: 0.6rem 1.8rem; margin-top: 1rem; }
+.sc__stats dt { font-size: 0.72rem; color: var(--c-mute); }
+.sc__stats dd { margin: 0.1rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.01em; }
+.sc__sw { display: inline-flex; padding-top: 0.35rem; }
+.sc__sw i { width: 1rem; height: 1rem; margin-left: -0.25rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.55); box-shadow: 0 0 0 1px #0a0a09; }
+.sc__sw i:first-child { margin-left: 0; }
+.sc__skel { width: 9rem; height: 1.2rem; background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.16), rgba(255,255,255,.06)); background-size: 200% 100%; animation: sc-shimmer 1.4s linear infinite; }
+@keyframes sc-shimmer { to { background-position: -200% 0; } }
+
+.sc__peek { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin-top: 1.1rem; }
+.sc__peek a { display: grid; gap: 0.25rem; min-width: 0; }
+.sc__peek a:focus-visible { outline: 2px solid var(--color-signal-bright); outline-offset: 2px; }
+.sc__peek img, .sc__peek span { width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; background: #1f1e1c; border: 1px solid rgba(242, 239, 232, 0.14); }
+.sc__peek b { font-size: 0.74rem; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc__peek em { font-style: normal; font-size: 0.74rem; color: var(--c-mute); }
+
+.sc__go {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; align-self: stretch;
+  min-height: 3.1rem; margin-top: 1.1rem;
+  background: var(--c-text); color: #0a0a09; font-size: 0.88rem; font-weight: 700;
+  transition: background-color 200ms ease, gap 200ms ease;
+}
+.sc__go:hover { background: #fff; gap: 0.9rem; }
+.sc__go:focus-visible { outline: 2px solid var(--color-signal-bright); outline-offset: 3px; }
+
+.sc__item.is-empty .sc__bg img { filter: grayscale(1) brightness(0.7); }
+
+/* ==========================================================================
+   Desktop — horizontal slats
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  .sc { flex-direction: row; height: clamp(36rem, 82vh, 46rem); gap: 8px; }
+
+  .sc__item, .sc__item.is-active {
+    height: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    transition: flex-grow 700ms cubic-bezier(0.22, 0.8, 0.24, 1), border-color 300ms ease;
+  }
+  .sc__item.is-active { flex-grow: var(--grow, 7); }
+
+  /* Whole slat is the hit area; label runs bottom-to-top along the spine. */
+  .sc__tab {
+    inset: 0; height: auto; padding: 1.2rem 0 1.4rem;
+    flex-direction: column; justify-content: space-between; align-items: center; gap: 1rem;
+  }
+  .sc__label {
+    flex: none; writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 1.25rem; white-space: nowrap; max-height: 100%; overflow: hidden; text-overflow: ellipsis;
+    transition: opacity 250ms ease;
+  }
+  .sc__count, .sc__chev { display: none; }
+  .sc__item:not(.is-active) .sc__bg img { opacity: 0.38; }
+  .sc__item:not(.is-active):hover .sc__bg img { opacity: 0.6; filter: grayscale(0.2); }
+  .sc__item.is-active .sc__tab { pointer-events: none; }
+  .sc__item.is-active .sc__label { opacity: 0; }
+  .sc__item.is-active .sc__no { opacity: 0; }
+
+  /* Panel has a fixed width so copy never reflows while the slat animates open. */
+  .sc__panel {
+    inset: auto auto 0 0; top: 0; width: min(100%, 34rem); min-width: 24rem;
+    padding: 1.6rem 1.8rem 1.8rem;
+  }
+  .sc__flags { top: 1.4rem; right: auto; left: auto; position: absolute; left: 1.8rem; }
+  .sc__no-big {
+    display: block; position: absolute; top: 3.4rem; left: 1.8rem;
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(5rem, 11vw, 9rem);
+    line-height: 0.8; letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 1px rgba(242, 239, 232, 0.35);
+  }
+  .sc__title {
+    display: block;
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+    font-size: clamp(2rem, 3.4vw, 3.3rem); line-height: 0.95; letter-spacing: -0.03em;
+  }
+  .sc__line { margin-top: 0.7rem; font-size: 1.05rem; }
+  .sc__peek { grid-template-columns: repeat(3, 6.4rem); gap: 0.7rem; }
+  .sc__go { align-self: flex-start; padding: 0 1.8rem; }
+}
+
+@media (max-width: 899px) {
+  .sc__item.is-active { height: 31rem; }
+  .sc__flags { top: 0.1rem; }
+}
+
+@media (max-width: 380px) {
+  .sc__count { display: none; }
+  .sc__item.is-active { height: 30rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc__item, .sc__panel, .sc__bg img { transition: none; }
+}

@@ -1,0 +1,10 @@
+.wishlist-page__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 1.25rem 0 1.75rem; }
+.wishlist-page__clear { background: none; border: 0; color: inherit; font: inherit; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; opacity: 0.7; cursor: pointer; }
+.wishlist-page__clear:hover { opacity: 1; }
+.wishlist-page__note { margin: 1rem 0; }
+.wishlist-page__empty { display: grid; justify-items: center; gap: 0.9rem; text-align: center; padding: clamp(2.5rem, 9vw, 6rem) 1rem; }
+.wishlist-page__empty p { max-width: 36ch; opacity: 0.75; }
+/* Same card grid the shop uses, without the shop's reveal-on-scroll hiding. */
+.wishlist-page__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@media (min-width: 768px) { .wishlist-page__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; } }
+@media (min-width: 1100px) { .wishlist-page__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

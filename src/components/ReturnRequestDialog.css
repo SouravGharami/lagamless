@@ -1,0 +1,85 @@
+/* Return-request dialog — centered modal, same visual language as the
+   admin confirm dialog (admin-dialog) and the customer filter drawer
+   (filter-drawer), just themed for a customer-facing form. */
+
+.return-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(12, 12, 11, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  z-index: 90;
+  animation: return-dialog-fade var(--duration-base) var(--ease-standard);
+}
+
+.return-dialog {
+  background-color: var(--color-white);
+  width: 100%;
+  max-width: 30rem;
+  max-height: calc(100vh - var(--space-10, 4rem));
+  overflow-y: auto;
+  animation: return-dialog-rise var(--duration-base) var(--ease-standard);
+}
+
+@keyframes return-dialog-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes return-dialog-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .return-dialog,
+  .return-dialog__backdrop {
+    animation-duration: 0.01ms;
+  }
+}
+
+.return-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: var(--border-hairline-light);
+}
+
+.return-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+
+.return-dialog__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.return-dialog__optional {
+  color: var(--color-graphite);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.return-dialog__textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.return-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}

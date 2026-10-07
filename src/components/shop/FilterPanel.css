@@ -1,0 +1,137 @@
+/* Shared filter panel — dark, editorial, numbered sections. Used by the desktop sidebar and the mobile sheet. */
+.fp { display: flex; flex-direction: column; }
+
+.fp-group { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.fp-group:first-child { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.fp-group__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.25rem;
+  padding: 0.25rem 0;
+  list-style: none;
+  cursor: pointer;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+}
+.fp-group__summary::-webkit-details-marker { display: none; }
+.fp-group__num { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; color: var(--color-signal-bright, #c85c50); }
+.fp-group__title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.fp-group__value {
+  margin-left: auto;
+  max-width: 45%;
+  padding: 0.15rem 0.55rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-signal, #6e2320);
+}
+.fp-group__chev {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.25rem 0 auto;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.55);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 200ms var(--ease-standard);
+}
+.fp-group__value + .fp-group__chev { margin-left: var(--space-2); }
+.fp-group[open] .fp-group__chev { transform: rotate(-135deg) translateY(-2px); }
+.fp-group__body { padding: 0.25rem 0 var(--space-5); animation: fp-open 220ms var(--ease-standard); }
+@keyframes fp-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---- Sizes: square tiles with a tiny "how many" number ---- */
+.fp-sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(3.4rem, 1fr)); gap: var(--space-2); }
+.fp-size {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  color: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background-color 180ms, border-color 180ms, color 180ms, transform 180ms;
+}
+.fp-size__label { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; }
+.fp-size__count { position: absolute; top: 3px; right: 5px; font-size: 0.5625rem; font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.4); }
+.fp-size:hover:not(:disabled) { border-color: #fff; }
+.fp-size:active:not(:disabled) { transform: scale(0.96); }
+.fp-size.is-active { background: #fff; border-color: #fff; color: var(--color-ink, #0c0c0b); }
+.fp-size.is-active .fp-size__count { color: rgba(12, 12, 11, 0.55); }
+.fp-size.is-dim { opacity: 0.32; cursor: not-allowed; text-decoration: line-through; }
+
+/* ---- Range: friendly "All / Under ₹X" cards (2 per row on the sidebar, 4 in a row on a wide sheet) ---- */
+.fp-budget { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
+@media (min-width: 480px) and (max-width: 1023px) { .fp-budget { grid-template-columns: repeat(4, 1fr); } }
+.fp-budget__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0.7rem 0.4rem 0.6rem;
+  color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background-color 180ms, border-color 180ms, color 180ms, transform 160ms;
+  -webkit-tap-highlight-color: transparent;
+}
+.fp-budget__card:hover { border-color: #fff; }
+.fp-budget__card:active { transform: scale(0.97); }
+.fp-budget__under { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-signal-bright, #c85c50); }
+.fp-budget__amount { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; line-height: 1.1; color: #fff; font-variant-numeric: tabular-nums; }
+.fp-budget__card.is-active { background: var(--color-signal, #6e2320); border-color: var(--color-signal-bright, #c85c50); }
+.fp-budget__card.is-active .fp-budget__under,
+.fp-budget__card.is-active .fp-budget__card:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.fp-rows { display: flex; flex-direction: column; }
+.fp-toggle__count { margin-left: auto; font-size: 0.75rem; font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.4); }
+.fp-toggle input:focus-visible ~ .fp-toggle__track { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ---- Quick picks: switches ---- */
+.fp-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.1rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fp-toggle__copy { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.fp-toggle__label { font-size: 0.875rem; font-weight: 600; color: #fff; }
+.fp-toggle__hint { font-size: 0.72rem; color: rgba(255, 255, 255, 0.45); }
+.fp-toggle__count { margin-left: auto; }
+.fp-toggle__track {
+  position: relative;
+  flex: none;
+  width: 2.4rem;
+  height: 1.4rem;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  transition: background-color 200ms, border-color 200ms;
+}
+.fp-toggle__track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.4rem - 6px);
+  height: calc(1.4rem - 6px);
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 220ms var(--ease-standard);
+}
+.fp-toggle.is-on .fp-toggle__track { background: var(--color-signal, #6e2320); border-color: var(--color-signal-bright, #c85c50); }
+.fp-toggle.is-on .fp-toggle__track::after { transform: translateX(1rem); }
+.fp-toggle.is-dim { opacity: 0.4; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-group__body, .fp-toggle__track::after, .fp-row__dot::after { animation: none; transition: none; }
+}

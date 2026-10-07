@@ -1,0 +1,39 @@
+/* Small confirmation pill for the wishlist heart. Sits at the top so it never collides with the
+   mobile tab bar or the product page's sticky buy bar. */
+.wishlist-toast {
+  position: fixed;
+  z-index: 70;
+  top: max(0.9rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.7rem 0.9rem 0.7rem 1.1rem;
+  background: rgba(12, 12, 11, 0.96);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-size: 0.875rem;
+  animation: wishlist-toast-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.wishlist-toast__text { white-space: nowrap; }
+.wishlist-toast__action {
+  background: none;
+  border: 0;
+  padding: 0.25rem 0.1rem;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+@keyframes wishlist-toast-in {
+  from { opacity: 0; transform: translate(-50%, -8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .wishlist-toast { animation: none; } }

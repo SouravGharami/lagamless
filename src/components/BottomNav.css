@@ -1,0 +1,90 @@
+/* Fixed app-style tab bar — mobile only. Hidden at the same >=768px
+   breakpoint the rest of the site switches to "desktop" at, so nothing
+   here ever touches the laptop/desktop experience. */
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: rgba(12, 12, 11, 0.94);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.bottom-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 7px 2px 8px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.62);
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  /* 44px+ tall tap target even before the safe-area padding is added. */
+  min-height: 52px;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.bottom-nav__item svg {
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.bottom-nav__item:active svg {
+  transform: scale(0.88);
+}
+
+.bottom-nav__item--active {
+  color: var(--color-white);
+}
+
+.bottom-nav__item--search .bottom-nav__search-badge {
+  display: inline-flex;
+}
+
+.bottom-nav__icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.bottom-nav__badge {
+  position: absolute;
+  top: -5px;
+  right: -9px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background-color: var(--color-signal-bright);
+  color: var(--color-white);
+  font-size: 9.5px;
+  font-weight: var(--weight-semibold);
+  line-height: 16px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav__item,
+  .bottom-nav__item svg {
+    transition: none;
+  }
+}

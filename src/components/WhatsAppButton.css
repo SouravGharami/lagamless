@@ -1,0 +1,214 @@
+/* Floating WhatsApp chat button. Round icon on mobile; on desktop it also expands into a pill with a label
+   (on hover/focus, and once shortly after the page loads). */
+.whatsapp-fab {
+  position: fixed;
+  right: var(--space-5);
+  bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+  display: inline-flex;
+  align-items: center;
+  height: 58px;
+  padding: 0;
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(145deg, #2fe27a 0%, #25d366 45%, #128c7e 100%);
+  box-shadow:
+    0 10px 24px rgba(18, 140, 126, 0.38),
+    0 2px 6px rgba(12, 12, 11, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  /* Above page content and the sticky buy bar, below the bottom tab bar, cart drawer and modals. */
+  z-index: 55;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  animation: whatsapp-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 600ms both;
+  transition: transform var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    bottom var(--duration-base) var(--ease-standard);
+}
+
+.whatsapp-fab:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(18, 140, 126, 0.45),
+    0 3px 8px rgba(12, 12, 11, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.whatsapp-fab:active {
+  transform: scale(0.95);
+}
+
+.whatsapp-fab:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(37, 211, 102, 0.55);
+}
+
+.whatsapp-fab__icon {
+  position: relative;
+  flex: none;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+}
+
+.whatsapp-fab__icon svg {
+  width: 31px;
+  height: 31px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.18));
+}
+
+/* Little "online" dot */
+.whatsapp-fab__dot {
+  position: absolute;
+  top: 12px;
+  right: 11px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #7dff9f;
+  border: 2px solid #128c7e;
+}
+
+/* Soft attention ring */
+.whatsapp-fab__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #25d366;
+  opacity: 0;
+  z-index: -1;
+  animation: whatsapp-pulse 2.8s ease-out 2s infinite;
+  pointer-events: none;
+}
+
+/* Label: collapsed to nothing until expanded */
+.whatsapp-fab__label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  font-family: var(--font-body);
+  line-height: 1.15;
+  transition: max-width 320ms var(--ease-standard), opacity 220ms var(--ease-standard), padding 320ms var(--ease-standard);
+}
+
+.whatsapp-fab__label strong {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.whatsapp-fab__label small {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+  .whatsapp-fab:hover .whatsapp-fab__label,
+  .whatsapp-fab.is-expanded .whatsapp-fab__label {
+    max-width: 220px;
+    opacity: 1;
+    padding-right: 22px;
+  }
+}
+
+/* Development-only hint when the number is missing */
+.whatsapp-fab--unset {
+  background: #3a3a38;
+  cursor: default;
+  height: auto;
+  min-height: 46px;
+  max-width: min(320px, calc(100vw - 2 * var(--space-4)));
+  padding: 8px 14px 8px 12px;
+  gap: 10px;
+  animation: none;
+}
+
+.whatsapp-fab--unset svg {
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+.whatsapp-fab__label--static {
+  max-width: none;
+  opacity: 1;
+  white-space: normal;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+@keyframes whatsapp-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-fab,
+  .whatsapp-fab__pulse {
+    animation: none;
+  }
+  .whatsapp-fab__pulse {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .whatsapp-fab {
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    height: 52px;
+  }
+  .whatsapp-fab__icon {
+    width: 52px;
+    height: 52px;
+  }
+  .whatsapp-fab__icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  .whatsapp-fab__dot {
+    top: 10px;
+    right: 9px;
+  }
+}
+
+/* ---- Product page: the sticky "Add to bag" bar (see StickyBuyBar.css) is fixed to the same bottom edge on small
+   screens. Lift the button clear of it whenever that bar is visible. ---- */
+body:has(.sticky-buy--visible) .whatsapp-fab {
+  bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---- Mobile app shell: <BottomNav /> occupies the same edge on every page it renders on, so lift the button
+   clear of it there too. ---- */
+@media (max-width: 767px) {
+  body:has(.bottom-nav) .whatsapp-fab {
+    bottom: calc(60px + var(--space-3) + env(safe-area-inset-bottom, 0px));
+  }
+}

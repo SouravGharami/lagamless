@@ -1,0 +1,128 @@
+.second-hero {
+  position: relative;
+  min-height: 78svh;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+}
+
+.second-hero__slides {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.second-hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-standard);
+}
+
+.second-hero__slide--active {
+  opacity: 1;
+}
+
+.second-hero__image {
+  height: 100%;
+  aspect-ratio: auto;
+  filter: grayscale(0.25) contrast(1.05);
+}
+
+.second-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(12, 12, 11, 0.88) 0%,
+    rgba(12, 12, 11, 0.55) 34%,
+    rgba(12, 12, 11, 0.15) 62%,
+    rgba(12, 12, 11, 0.05) 100%
+  );
+}
+
+.second-hero__panel {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-6) var(--container-padding) var(--space-8);
+  color: var(--color-white);
+  max-width: 640px;
+}
+
+.second-hero__eyebrow {
+  color: var(--color-silver);
+  margin-bottom: var(--space-3);
+}
+
+.second-hero__line {
+  color: var(--color-white);
+  max-width: 14ch;
+}
+
+.second-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  width: fit-content;
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-ink);
+  background-color: var(--color-white);
+  padding: var(--space-3) var(--space-5);
+  transition: background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard),
+    gap var(--duration-base) var(--ease-standard);
+}
+
+.second-hero__slides:hover .second-hero__cta {
+  gap: var(--space-3);
+  background-color: var(--color-signal);
+  color: var(--color-white);
+}
+
+.second-hero__dots {
+  position: absolute;
+  z-index: 2;
+  bottom: var(--space-6);
+  right: var(--container-padding);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.second-hero__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-white);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.second-hero__dot--active {
+  background-color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .second-hero {
+    min-height: 86svh;
+  }
+
+  .second-hero__panel {
+    padding-inline: var(--container-padding);
+  }
+
+  .second-hero__line {
+    max-width: 18ch;
+  }
+
+  .second-hero__dots {
+    bottom: var(--space-7);
+  }
+}

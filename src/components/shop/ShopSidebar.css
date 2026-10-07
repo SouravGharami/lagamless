@@ -1,0 +1,162 @@
+.shop-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  /* Stays in view while the product grid scrolls; scrolls on its own if the viewport is short. */
+  .shop-sidebar {
+    position: sticky;
+    top: calc(var(--navbar-h-desktop, 84px) + 1rem);
+    max-height: calc(100vh - var(--navbar-h-desktop, 84px) - 2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    padding-right: 4px;
+  }
+}
+
+.shop-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+}
+
+.shop-sidebar__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: var(--weight-bold, 700);
+  letter-spacing: var(--tracking-tight);
+  color: #fff;
+}
+
+.shop-sidebar__badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.3rem;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-signal-bright, #c85c50);
+  border-radius: 999px;
+}
+
+.shop-sidebar__reset {
+  font-size: var(--size-small);
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.shop-sidebar__reset:hover { color: #fff; }
+
+/* ---- The LAGAMLESS promise: a calm, numbered-feel card in place of the colour / design filters ---- */
+.shop-promise {
+  position: relative;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background: linear-gradient(160deg, rgba(200, 92, 80, 0.12), rgba(255, 255, 255, 0.025) 55%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid var(--color-signal-bright, #c85c50);
+}
+.shop-promise__kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: 0.625rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.shop-promise__kicker span { width: 1.5rem; height: 1px; background: var(--color-signal-bright, #c85c50); }
+.shop-promise__title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1.15;
+  font-weight: var(--weight-bold, 700);
+  text-transform: uppercase;
+  color: #fff;
+}
+.shop-promise__title em { font-style: normal; color: var(--color-signal-bright, #c85c50); }
+.shop-promise__list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.shop-promise__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.shop-promise__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-signal-bright, #c85c50);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  transition: background-color 200ms, color 200ms, border-color 200ms;
+}
+.shop-promise__item:hover .shop-promise__icon { background: var(--color-signal, #6e2320); color: #fff; border-color: var(--color-signal-bright, #c85c50); }
+.shop-promise__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.shop-promise__copy strong {
+  font-size: 0.75rem;
+  font-weight: var(--weight-bold, 700);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.shop-promise__copy span { font-size: 0.78rem; line-height: 1.45; color: rgba(255, 255, 255, 0.58); }
+
+/* ---- Promo card ----
+   The image already has its headline, arrow and wordmark composited in
+   at design time, so this card just frames that finished graphic — no
+   extra CSS scrim/text on top (that would double up with what's baked
+   into the photo, same fix as the category tiles strip). */
+
+.shop-sidebar__promo {
+  position: relative;
+  display: block;
+  /* Slightly taller than the plain 3:4 crop for a bit more presence. */
+  aspect-ratio: 3 / 4.3;
+  overflow: hidden;
+  background-color: var(--color-ink);
+}
+
+.shop-sidebar__promo-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.shop-sidebar__promo-image img {
+  transition: transform 600ms var(--ease-standard);
+}
+
+.shop-sidebar__promo:hover .shop-sidebar__promo-image img {
+  transform: scale(1.04);
+}
+
+.shop-sidebar__promo:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  .shop-sidebar {
+    display: none;
+  }
+}

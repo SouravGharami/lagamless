@@ -1,0 +1,23 @@
+/* Garment detection preview — scoped to .mv2-gd, reuses the studio's .mv2-* tokens and controls. */
+.mv2-gd__sens { width: auto; min-width: 84px; }
+.mv2-gd__tabs { display: flex; flex-wrap: wrap; gap: 4px; }
+.mv2-gd__tabs .mv2-btn { padding: 5px 10px; font-size: 12px; }
+.mv2-gd__stage {
+  width: 100%;
+  max-height: 320px;
+  border: 1px solid var(--mv2-line-strong);
+  background:
+    conic-gradient(#2a2927 25%, #1b1a19 0 50%, #2a2927 0 75%, #1b1a19 0) 0 0 / 16px 16px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.mv2-gd__canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+.mv2-gd__opacity { display: flex; align-items: center; gap: 8px; }
+.mv2-gd__opacity input { flex: 1; }
+.mv2-gd__stats { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--mv2-muted); }
+.mv2-gd__level--high { color: #7fd6a2; }
+.mv2-gd__level--medium { color: #e6c36f; }
+.mv2-gd__level--low { color: #e8a79f; }
+.mv2-gd__swatch { display: inline-flex; align-items: center; gap: 6px; }
+.mv2-gd__swatch i { width: 10px; height: 10px; border: 1px solid var(--mv2-line-strong); display: inline-block; }
